@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Assembly.Horizon.Domain.Model;
 using Microsoft.EntityFrameworkCore;
-using Assembly.Horizon.Domain.Model;
-using System.Reflection.Emit;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Assembly.Horizon.Infra.Data.Configurations;
 
@@ -32,5 +31,10 @@ internal class PropertyConfiguration : IEntityTypeConfiguration<Property>
         .WithMany(r => r.Properties)
         .HasForeignKey(p => p.RealtorId)
         .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(p => p.User)
+               .WithMany()
+               .HasForeignKey(p => p.UserId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

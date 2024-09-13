@@ -20,6 +20,8 @@ public class Contract : AuditableEntity, IEntity<Guid>
     public string PaymentFrequency { get; set; }
     public bool RenewalOption { get; set; }
     public string TerminationClauses { get; set; }
+    public bool IsActive { get; set; }
+    public DateTime? LastActiveDate { get; set; }
 
     private Contract()
     {
@@ -36,7 +38,9 @@ public class Contract : AuditableEntity, IEntity<Guid>
         double additionalFees,
         string paymentFrequency,
         bool renewalOption,
-        string terminationClauses)
+        string terminationClauses,
+        bool isActive,
+        DateTime? lastActiveDate)
     {
         Id = id;
         PropertyId = propertyId;
@@ -49,6 +53,7 @@ public class Contract : AuditableEntity, IEntity<Guid>
         PaymentFrequency = paymentFrequency;
         RenewalOption = renewalOption;
         TerminationClauses = terminationClauses;
-
+        IsActive = isActive;
+        LastActiveDate = lastActiveDate;
     }
 }

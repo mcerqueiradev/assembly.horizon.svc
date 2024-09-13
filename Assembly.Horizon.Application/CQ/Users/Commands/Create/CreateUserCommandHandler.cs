@@ -28,6 +28,8 @@ public class CreateUserCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<
             ImageUrl = request.ImageUrl,
             PhoneNumber = request.PhoneNumber,
             DateOfBirth = request.DateOfBirth,
+            IsActive = request.IsActive,
+            LastActiveDate = request.LastActiveDate,
         };
         var newAccount = new Account
         {
@@ -35,6 +37,8 @@ public class CreateUserCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<
             PasswordHash = protectionKeys.PasswordHash,
             PasswordSalt = protectionKeys.PasswordSalt,
             UserId = newUser.Id,
+            IsActive = newUser.IsActive,
+            LastActiveDate = newUser.LastActiveDate,
         };
 
         await unitOfWork.UserRepository.AddAsync(newUser, cancellationToken);

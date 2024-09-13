@@ -29,7 +29,9 @@ public class RetrieveAllUsersQueryHandler : IRequestHandler<RetrieveAllUsersQuer
             Access = user.Access,
             ImageUrl = user.ImageUrl,
             PhoneNumber = user.PhoneNumber,
-            DateOfBirth = user.DateOfBirth
+            DateOfBirth = user.DateOfBirth,
+            IsActive = user.IsActive,
+            LastActiveDate = user.LastActiveDate,
         }).ToList();
 
         var response = new RetrieveAllUsersResponse { Users = userResponses };

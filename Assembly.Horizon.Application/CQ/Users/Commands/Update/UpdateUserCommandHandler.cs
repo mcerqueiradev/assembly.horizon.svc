@@ -19,6 +19,8 @@ public class UpdateUserCommandHadler(IUnitOfWork unitOfWork) : IRequestHandler<U
         existingUser.Access = request.Access;
         existingUser.PhoneNumber = request.PhoneNumber;
         existingUser.DateOfBirth = request.DateOfBirth;
+        existingUser.IsActive = request.IsActive;
+        existingUser.LastActiveDate = request.LastActiveDate;
 
         var account = await unitOfWork.AccountRepository.RetrieveAsync(existingUser.Account.Id);
         if (account == null)

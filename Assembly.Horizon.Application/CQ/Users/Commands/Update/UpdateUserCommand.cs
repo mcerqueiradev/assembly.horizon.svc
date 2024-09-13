@@ -15,4 +15,6 @@ public class UpdateUserCommand : IRequest<Result<UpdateUserResponse, Success, Er
     public required string PhoneNumber { get; init; }
     public required string ImageUrl { get; init; }
     public required DateTime DateOfBirth { get; init; }
+    public required bool IsActive { get; init; }
+    public required DateTime? LastActiveDate { get; init; }
 }

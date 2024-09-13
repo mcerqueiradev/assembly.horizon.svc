@@ -12,6 +12,8 @@ public class Property : AuditableEntity, IEntity<Guid>
     public Address Address { get; set; }
     public Guid RealtorId { get; set; }
     public Realtor Realtor { get; set; }
+    public Guid UserId { get; set; }
+    public User User { get; set; }
     public PropertyType Type { get; set; }
     public double Size { get; set; }
     public int Bedrooms { get; set; }
@@ -21,6 +23,8 @@ public class Property : AuditableEntity, IEntity<Guid>
     public PropertyStatus Status { get; set; }
     public List<PropertyFile> Images { get; set; } = new();
     public List<User> LikedByUsers { get; set; } = new();
+    public bool IsActive { get; set; }
+    public DateTime? LastActiveDate { get; set; }
 
     public Property() { }
     public Property(
@@ -37,7 +41,11 @@ public class Property : AuditableEntity, IEntity<Guid>
     string amenities,
     PropertyStatus status,
     List<PropertyFile> images,
-    List<User> likedByUsers)
+    List<User> likedByUsers,
+    bool isActive,
+    DateTime? lastActiveDate,
+    Realtor realtor,
+    User user)
     {
         Id = id;
         Title = title;
@@ -53,6 +61,12 @@ public class Property : AuditableEntity, IEntity<Guid>
         Status = status;
         Images = images;
         LikedByUsers = likedByUsers;
+        IsActive = isActive;
+        LastActiveDate = lastActiveDate;
+        Realtor = realtor;
+        RealtorId = realtor.Id;
+        User = user;
+        UserId = user.Id;
     }
 }
 

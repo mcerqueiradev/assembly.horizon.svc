@@ -8,4 +8,6 @@ public class CreateUserResponse
     public required string Email { get; set; }
     public required string PhoneNumber { get; set; }
     public required string ImageUrl { get; set; }
+    public required bool IsActive { get; set; }
+    public required DateTime? LastActiveDate { get; set; }
 }

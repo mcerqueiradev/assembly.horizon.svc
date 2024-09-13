@@ -29,7 +29,9 @@ public class RetrieveUserQueryHandler : IRequestHandler<RetrieveUserQuery, Resul
             Access = user.Access,
             ImageUrl = user.ImageUrl,
             PhoneNumber = user.PhoneNumber,
-            DateOfBirth = user.DateOfBirth
+            DateOfBirth = user.DateOfBirth,
+            IsActive = user.IsActive,
+            LastActiveDate = user.LastActiveDate
         };
 
         return response;

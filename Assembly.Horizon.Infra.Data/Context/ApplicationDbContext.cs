@@ -17,6 +17,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<Property> Properties { get; set; }
     public DbSet<PropertyFile> PropertyFiles { get; set; }
+    public DbSet<PropertyVisit> PropertyVisits { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -44,6 +45,8 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new NotificationsConfiguration());
         modelBuilder.ApplyConfiguration(new PropertyConfiguration());
         modelBuilder.ApplyConfiguration(new PropertyFileConfiguration());
+        modelBuilder.ApplyConfiguration(new PropertyVisitConfiguration());
+        modelBuilder.ApplyConfiguration(new ContractConfiguration());
 
         modelBuilder.HasDefaultSchema("Horizon");
     }

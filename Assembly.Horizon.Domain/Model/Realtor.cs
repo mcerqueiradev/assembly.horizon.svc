@@ -12,15 +12,16 @@ public class Realtor : AuditableEntity, IEntity<Guid>
     public string OfficeEmail { get; set; }
     public int TotalSales { get; set; }
     public int TotalListings { get; set; }
-    public string Certifications { get; set; }
-    public List<Languages> LanguagesSpoken { get; set; }
+    public List<string> Certifications { get; set; }
+    public List<Languages> LanguagesSpoken { get; set; } = new();
+    public bool IsActive { get; set; }
+    public DateTime? LastActiveDate { get; set; }
 
     public Realtor()
     {
-        LanguagesSpoken = new List<Languages>();
     }
 
-    public Realtor(User user, string officeEmail, int totalSales, int totalListings, string certifications, List<Languages> languagesSpoken)
+    public Realtor(User user, string officeEmail, int totalSales, int totalListings, List<string> certifications, List<Languages> languagesSpoken)
     {
         User = user;
         UserId = user.Id;
