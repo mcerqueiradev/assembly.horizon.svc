@@ -1,0 +1,6 @@
+@Assembly.Horizon.WebApi_HostAddress = http://localhost:5105
+
+GET {{Assembly.Horizon.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
