@@ -8,7 +8,7 @@ namespace Assembly.Horizon.Infra.Data.Repositories;
 public class AccountRepository : PaginatedRepository<Account, Guid>, IAccountRepository
 {
     protected readonly ApplicationDbContext _context;
-    protected readonly Microsoft.EntityFrameworkCore.DbSet<Account> _dbSet;
+    protected readonly DbSet<Account> _dbSet;
 
     public AccountRepository(ApplicationDbContext context) : base(context)
     {
@@ -18,7 +18,6 @@ public class AccountRepository : PaginatedRepository<Account, Guid>, IAccountRep
 
     public async Task<Account> GetByEmailAsync(string email)
     {
-        //return await _dbSet.Accounts.FirstOrDefaultAsync(u => u.Email == email);
         var result = await _dbSet.FirstOrDefaultAsync(u => u.Email == email);
         return result;
     }

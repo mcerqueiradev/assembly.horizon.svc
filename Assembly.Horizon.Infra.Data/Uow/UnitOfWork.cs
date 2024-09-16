@@ -2,21 +2,20 @@
 using Assembly.Horizon.Domain.Core.Uow;
 using Assembly.Horizon.Infra.Data.Context;
 using Assembly.Horizon.Security.Interface;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Data.Common;
-using System.Text;
 
 namespace Assembly.Horizon.Infra.Data.Uow;
 
 internal class UnitOfWork(ApplicationDbContext context, IUserRepository userRepository,
-    ITokenService tokenService, IDataProtectionService dataProtectionService, IAccountRepository accountRepository) : IUnitOfWork
+    ITokenService tokenService, IDataProtectionService dataProtectionService, IAccountRepository accountRepository, IAddressRepository addressRepository) : IUnitOfWork
 {
     private IDbContextTransaction? _transaction;
     private bool _disposed;
 
     public IUserRepository UserRepository => userRepository;
     public IAccountRepository AccountRepository => accountRepository;
+    public IAddressRepository AddressRepository => addressRepository;
     public ITokenService TokenService => tokenService;
     public IDataProtectionService DataProtectionService => dataProtectionService;
 

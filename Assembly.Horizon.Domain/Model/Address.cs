@@ -12,7 +12,7 @@ public class Address : AuditableEntity, IEntity<Guid>
     public string PostalCode { get; set; }
     public string Country { get; set; }
     public string Reference { get; set; }
-    private Address()
+    public Address()
     {
         Id = Guid.NewGuid();
     }
@@ -26,5 +26,4 @@ public class Address : AuditableEntity, IEntity<Guid>
         Country = country;
         Reference = reference;
     }
-
 }

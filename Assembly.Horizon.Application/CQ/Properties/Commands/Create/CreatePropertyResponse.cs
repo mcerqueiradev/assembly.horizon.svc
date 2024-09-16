@@ -13,6 +13,7 @@ public class CreatePropertyResponse
    public required string Description { get; init; }
    public required AddressResponse Address { get; init; }
    public required RealtorResponse Realtor { get; init; }
+    public required UserResponse User { get; init; }
    public required PropertyType Type { get; init; }
    public required double Size { get; init; }
    public required int Bedrooms { get; init; }
