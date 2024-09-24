@@ -24,4 +24,5 @@ public sealed record Error(string Code, string Description)
     public static readonly Error BadRequest = new("BadRequest", "The request was invalid or cannot be served");
     public static readonly Error Conflict = new("Conflict", "The request could not be completed due to a conflict");
     public static readonly Error UserNotFound = new("UserNotFound", "The request could not find your credentials");
+    public static readonly Error ExistingAddress = new("AddressConflict", "The address already exists.");
 }

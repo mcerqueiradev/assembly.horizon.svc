@@ -16,4 +16,17 @@ public class AddressRepository : PaginatedRepository<Address, Guid>, IAddressRep
         _dbSet = context.Set<Address>();
     }
 
+    public async Task<Address> GetFullAddressAsync(Address address, CancellationToken cancellationToken)
+    {
+
+        return await _context.Addresses
+            .Where(a => a.Street == address.Street &&
+                        a.City == address.City &&
+                        a.State == address.State &&
+                        a.PostalCode == address.PostalCode &&
+                        a.Country == address.Country &&
+                        a.Reference == address.Reference)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
 }

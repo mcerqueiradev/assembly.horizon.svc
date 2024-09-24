@@ -1,4 +1,4 @@
-﻿namespace Assembly.Horizon.Application.CQ.Property.Commands.Create
+﻿namespace Assembly.Horizon.Application.CQ.Properties.Commands.Create
 {
     internal class CreatePropertyCommandValidator
     {

@@ -6,67 +6,60 @@ using Assembly.Horizon.Application.CQ.Users.Queries.RetrieveAll;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Assembly.Horizon.WebApi.Controllers
+namespace Assembly.Horizon.WebApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class UserController(ISender sender) : Controller
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : Controller
+
+    [HttpPost("Register")]
+    [ProducesResponseType(typeof(CreateUserResponse), 200)]
+    [ProducesResponseType(typeof(Error), 400)]
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command, CancellationToken cancellationToken)
     {
-        private readonly ISender _sender;
+        var result = await sender.Send(command, cancellationToken);
 
-        public UserController(ISender sender)
+        if (result.IsSuccess)
         {
-            _sender = sender;
+            return Ok(result.IsSuccess);
         }
 
-        [HttpPost("Register")]
-        [ProducesResponseType(typeof(CreateUserResponse), 200)]
-        [ProducesResponseType(typeof(Error), 400)]
-        public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command, CancellationToken cancellationToken)
+        return BadRequest(result.Error);
+    }
+
+    [HttpGet("RetrieveAll")]
+    public async Task<IActionResult> RetrieveAll(CancellationToken cancellationToken)
+    {
+        var result = await sender.Send(new RetrieveAllUsersQuery(), cancellationToken);
+
+        if (result.IsSuccess)
         {
-            var result = await _sender.Send(command, cancellationToken);
-
-            if (result.IsSuccess)
-            {
-                return Ok(result.IsSuccess);
-            }
-
-            return BadRequest(result.Error);
+            return Ok(result.Value);
         }
 
-        [HttpGet("RetrieveAll")]
-        public async Task<IActionResult> RetrieveAll(CancellationToken cancellationToken)
+        return NotFound(result.Error);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Retrieve(Guid id, CancellationToken cancellationToken)
+    {
+        var query = new RetrieveUserQuery { Id = id };
+        var result = await sender.Send(query, cancellationToken);
+
+        if (result.IsSuccess)
         {
-            var result = await _sender.Send(new RetrieveAllUsersQuery(), cancellationToken);
-
-            if (result.IsSuccess)
-            {
-                return Ok(result.Value);
-            }
-
-            return NotFound(result.Error);
+            return Ok(result.Value);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Retrieve(Guid id, CancellationToken cancellationToken)
-        {
-            var query = new RetrieveUserQuery { Id = id };
-            var result = await _sender.Send(query, cancellationToken);
+        return NotFound(result.Error);
+    }
 
-            if (result.IsSuccess)
-            {
-                return Ok(result.Value);
-            }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommand command)
+    {
+        var updatedMember = await sender.Send(command);
 
-            return NotFound(result.Error);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommand command)
-        {
-            var updatedMember = await _sender.Send(command);
-
-            return updatedMember != null ? Ok(updatedMember.IsSuccess) : NotFound("User not found.");
-        }
+        return updatedMember != null ? Ok(updatedMember.IsSuccess) : NotFound("User not found.");
     }
 }

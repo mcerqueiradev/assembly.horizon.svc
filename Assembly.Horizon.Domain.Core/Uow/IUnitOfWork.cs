@@ -8,6 +8,9 @@ public interface IUnitOfWork
 {
     public IUserRepository UserRepository { get; }
     public IAccountRepository AccountRepository { get; }
+    public IRealtorRepository RealtorRepository { get; }
+    public ICustomerRepository CustomerRepository { get; }
+    public IPropertyRepository PropertyRepository { get; }
     public IAddressRepository AddressRepository { get; }
     public ITokenService TokenService { get; }
     public IDataProtectionService DataProtectionService { get; }

@@ -38,7 +38,10 @@ public class AuthUserHandler : IRequestHandler<AuthUserQuery, Result<AuthUserRes
         }
 
         var token = _tokenService.GenerateToken(user);
-        var response = new AuthUserResponse { Token = token };
+        var response = new AuthUserResponse { 
+            Token = token, 
+            UserId = user.Id,
+        };
 
         return response;
     }

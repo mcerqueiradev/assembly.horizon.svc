@@ -7,7 +7,6 @@ namespace Assembly.Horizon.Application.CQ.Addresses.Commands.Create;
 
 public class CreateAddressCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateAddressCommand, Result<CreateAddressResponse, Success, Error>>
 {
-
     public async Task<Result<CreateAddressResponse, Success, Error>> Handle(CreateAddressCommand request, CancellationToken cancellationToken)
     {
 
@@ -19,6 +18,12 @@ public class CreateAddressCommandHandler(IUnitOfWork unitOfWork) : IRequestHandl
             Country = request.Country,
             Reference = request.Reference
         };
+
+        var existingAddress = await unitOfWork.AddressRepository.GetFullAddressAsync(newAddress, cancellationToken);
+        if (existingAddress != null)
+        {
+            return Error.ExistingAddress;
+        }
         
         await unitOfWork.AddressRepository.AddAsync(newAddress, cancellationToken);
         await unitOfWork.CommitAsync();

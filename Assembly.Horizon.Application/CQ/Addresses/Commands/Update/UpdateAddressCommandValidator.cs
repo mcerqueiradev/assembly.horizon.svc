@@ -1,15 +1,17 @@
-﻿using Assembly.Horizon.Application.CQ.Users.Commands.Create;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace Assembly.Horizon.Application.CQ.Addresses.Commands.Create;
+namespace Assembly.Horizon.Application.CQ.Addresses.Commands.Update;
 
-public class CreateAddressCommandValidator : AbstractValidator<CreateAddressCommand>
+public class UpdateAddressCommandValidator : AbstractValidator<UpdateAddressCommand>
 {
-    public CreateAddressCommandValidator()
+    public UpdateAddressCommandValidator()
     {
+        RuleFor(x => x.Id)
+                .NotEmpty().WithMessage("Address ID is required.");
+
         RuleFor(x => x.Street)
-            .NotEmpty().WithMessage("Street is required.")
-            .MaximumLength(100).WithMessage("Street cannot exceed 100 characters.");
+        .NotEmpty().WithMessage("Street is required.")
+        .MaximumLength(100).WithMessage("Street cannot exceed 100 characters.");
 
         RuleFor(x => x.City)
             .NotEmpty().WithMessage("City is required.")
@@ -28,6 +30,6 @@ public class CreateAddressCommandValidator : AbstractValidator<CreateAddressComm
             .MaximumLength(100).WithMessage("Country cannot exceed 100 characters.");
 
         RuleFor(x => x.Reference)
-            .MaximumLength(100).WithMessage("Reference cannot exceed 100 characters.");
+            .MaximumLength(100).WithMessage("Reference cannot exceed 100 characters.");        
     }
 }

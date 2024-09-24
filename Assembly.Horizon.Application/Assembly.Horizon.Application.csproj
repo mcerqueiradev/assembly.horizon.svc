@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQ\Addresses\Queries\" />
     <Folder Include="CQ\Realtor\" />
     <Folder Include="CQ\Properties\Queries\" />
   </ItemGroup>

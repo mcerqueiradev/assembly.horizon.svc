@@ -4,6 +4,7 @@ using Assembly.Horizon.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assembly.Horizon.Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240920111316_CustomerAdd")]
+    partial class CustomerAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -385,9 +388,6 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.Property<DateTime?>("LastActiveDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -414,14 +414,17 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId")
                         .IsUnique();
 
-                    b.HasIndex("OwnerId");
-
                     b.HasIndex("RealtorId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Properties", "Horizon");
                 });
@@ -784,23 +787,23 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Assembly.Horizon.Domain.Model.Customer", "Owner")
-                        .WithMany("OwnedProperties")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Assembly.Horizon.Domain.Model.Realtor", "Realtor")
                         .WithMany("Properties")
                         .HasForeignKey("RealtorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Assembly.Horizon.Domain.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Address");
 
-                    b.Navigation("Owner");
-
                     b.Navigation("Realtor");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.PropertyFile", b =>
@@ -921,11 +924,6 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Assembly.Horizon.Domain.Model.Customer", b =>
-                {
-                    b.Navigation("OwnedProperties");
                 });
 
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.Property", b =>

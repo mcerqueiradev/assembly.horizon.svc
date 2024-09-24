@@ -5,4 +5,5 @@ namespace Assembly.Horizon.Domain.Core.Interfaces;
 
 public interface IAddressRepository : IRepository<Address, Guid>
 {
+    Task<Address> GetFullAddressAsync(Address address, CancellationToken cancellationToken = default);
 }

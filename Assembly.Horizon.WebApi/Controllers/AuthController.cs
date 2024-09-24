@@ -18,13 +18,18 @@ public class AuthController : Controller
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] AuthUserQuery query)
     {
-        var response = await _mediator.Send(query);
+        var result = await _mediator.Send(query);
 
-        if (!response.IsSuccess)
+        if (!result.IsSuccess)
         {
-            return Unauthorized(response.Error);
+            return Unauthorized(result.Error);
         }
 
-        return Ok(new { Token = response.IsSuccess });
+        return Ok(new
+        {
+            Token = result.Value.Token,
+            UserId = result.Value.UserId
+        });
     }
+
 }

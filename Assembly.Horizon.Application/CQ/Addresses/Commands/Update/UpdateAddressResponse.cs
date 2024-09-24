@@ -1,6 +1,6 @@
-﻿namespace Assembly.Horizon.Application.CQ.Addresses.Commands.Create;
+﻿namespace Assembly.Horizon.Application.CQ.Addresses.Commands.Update;
 
-public class CreateAddressResponse
+public class UpdateAddressResponse
 {
     public Guid Id { get; set; }
     public string Street { get; set; }
