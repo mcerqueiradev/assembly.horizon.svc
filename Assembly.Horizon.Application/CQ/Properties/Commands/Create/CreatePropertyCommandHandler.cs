@@ -24,7 +24,6 @@ public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork) : IRequestHand
 
         var address = new Address
         {
-            Street = request.
         };
 
         var property = new Property

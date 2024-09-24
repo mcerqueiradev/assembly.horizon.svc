@@ -14,8 +14,6 @@ public class Realtor : AuditableEntity, IEntity<Guid>
     public int TotalListings { get; set; }
     public List<string> Certifications { get; set; }
     public List<Languages> LanguagesSpoken { get; set; } = new();
-    public bool IsActive { get; set; }
-    public DateTime? LastActiveDate { get; set; }
 
     public Realtor()
     {

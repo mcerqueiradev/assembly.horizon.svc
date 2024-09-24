@@ -7,9 +7,9 @@ namespace Assembly.Horizon.Domain.Model
     {
         public Guid Id { get; set; }
         public Guid SenderId { get; set; }
-        public User SenderUser { get; set; }
+        public Realtor SenderUser { get; set; }
         public Guid RecipientId { get; set; }
-        public User RecipientUser { get; set; }
+        public Customer RecipientUser { get; set; }
         public string Message { get; set; }
         public DateTime Date { get; set; }
         public NotificationStatus Status { get; set; }

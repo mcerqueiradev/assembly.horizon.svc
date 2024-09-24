@@ -1,9 +1,7 @@
 ﻿using Assembly.Horizon.Application.Common.Responses;
 using Assembly.Horizon.Domain.Core.Uow;
-using Assembly.Horizon.Infra.Data.Context;
 using Assembly.Horizon.Security.Interface;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Assembly.Horizon.Application.CQ.Users.Queries.Auth;
 

@@ -43,9 +43,9 @@ namespace Assembly.Horizon.Infra.Data.Configurations
                    .HasForeignKey(c => c.PropertyId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(c => c.User)
+            builder.HasOne(c => c.Customer)
                    .WithMany() // Presumindo que um User pode ter muitos Contracts, ajuste se necessário
-                   .HasForeignKey(c => c.UserId)
+                   .HasForeignKey(c => c.CustomerId)
                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(c => c.Realtor)

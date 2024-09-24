@@ -2,9 +2,7 @@
 {
     public class AuthUserResponse
     {
-        public string Id { get; set;}
         public string Token { get; set;}
-        public string Email { get; set;}
         public Guid UserId { get; set; }
     }
 }

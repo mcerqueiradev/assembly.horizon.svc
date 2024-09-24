@@ -8,8 +8,8 @@ public class Contract : AuditableEntity, IEntity<Guid>
     public Guid Id { get; set; }
     public Guid PropertyId { get; set; }
     public Property Property { get; set; }
-    public Guid UserId { get; set; }
-    public User User { get; set; }
+    public Guid CustomerId { get; set; }
+    public Customer Customer { get; set; }
     public Guid RealtorId { get; set; }
     public Realtor Realtor { get; set; }
     public DateTime StartDate { get; set; }
@@ -30,7 +30,7 @@ public class Contract : AuditableEntity, IEntity<Guid>
     public Contract(
         Guid id,
         Guid propertyId,
-        Guid userId,
+        Guid customerId,
         DateTime startDate,
         DateTime endDate,
         double value,
@@ -44,7 +44,7 @@ public class Contract : AuditableEntity, IEntity<Guid>
     {
         Id = id;
         PropertyId = propertyId;
-        UserId = userId;
+        CustomerId = customerId;
         StartDate = startDate;
         EndDate = endDate;
         Value = value;
