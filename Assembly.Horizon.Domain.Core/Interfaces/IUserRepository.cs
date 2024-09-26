@@ -7,5 +7,5 @@ public interface IUserRepository : IRepository<User, Guid>
 {
     Task<User> GetByEmailAsync(string email, CancellationToken cancellationToken);
 
-
+    //Task<User> UpdateAccess(Access access, CancellationToken cancellationToken);
 }

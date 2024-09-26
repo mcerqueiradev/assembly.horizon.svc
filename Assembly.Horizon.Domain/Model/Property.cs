@@ -12,8 +12,6 @@ public class Property : AuditableEntity, IEntity<Guid>
     public Address Address { get; set; }
     public Guid RealtorId { get; set; }
     public Realtor Realtor { get; set; }
-    public Guid OwnerId { get; set; }
-    public Customer Owner { get; set; }
     public PropertyType Type { get; set; }
     public double Size { get; set; }
     public int Bedrooms { get; set; }
@@ -45,8 +43,7 @@ public class Property : AuditableEntity, IEntity<Guid>
         List<User> likedByUsers,
         bool isActive,
         DateTime? lastActiveDate,
-        Realtor realtor,
-        Customer owner)
+        Realtor realtor)
     {
         Id = id;
         Title = title;
@@ -66,8 +63,6 @@ public class Property : AuditableEntity, IEntity<Guid>
         LastActiveDate = lastActiveDate;
         Realtor = realtor;
         RealtorId = realtor.Id;
-        Owner = owner;
-        OwnerId = owner.Id;
     }
 }
 

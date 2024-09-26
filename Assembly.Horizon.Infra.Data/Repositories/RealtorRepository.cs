@@ -15,4 +15,9 @@ public class RealtorRepository : PaginatedRepository<Realtor, Guid>, IRealtorRep
         _context = context;
         _dbSet = context.Set<Realtor>();
     }
+
+    public async Task<Realtor> RetrieveByUserAsync(Guid id)
+    {
+        return await _context.Realtors.FirstOrDefaultAsync(u => u.UserId == id);
+    }
 }

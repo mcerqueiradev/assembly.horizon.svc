@@ -12,24 +12,13 @@ public class Customer : AuditableEntity, IEntity<Guid>
     // Nova propriedade
     public List<Property> OwnedProperties { get; set; } = new List<Property>();
 
-    protected Customer() { }
+    public Customer() { }
 
     public Customer(Guid id, User user)
     {
         Id = id;
         UserId = user.Id;
         User = user;
-    }
-
-    // Métodos de domínio
-    public void AddProperty(Property property)
-    {
-        OwnedProperties.Add(property);
-    }
-
-    public void RemoveProperty(Property property)
-    {
-        OwnedProperties.Remove(property);
     }
 
     // Método para obter o tipo de acesso (CustomerType)

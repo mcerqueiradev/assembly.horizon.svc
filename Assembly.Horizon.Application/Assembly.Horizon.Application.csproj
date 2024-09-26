@@ -21,8 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="CQ\Categories\" />
+    <Folder Include="CQ\Contracts\" />
+    <Folder Include="CQ\Favorites\Commands\" />
+    <Folder Include="CQ\Favorites\Queries\" />
     <Folder Include="CQ\Properties\Queries\" />
-    <Folder Include="CQ\Realtors\Queries\RetrieveAll\" />
   </ItemGroup>
 
 </Project>

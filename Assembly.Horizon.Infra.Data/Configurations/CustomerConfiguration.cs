@@ -15,10 +15,5 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
                 .WithOne()
                 .HasForeignKey<Customer>(pv => pv.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasMany(c => c.OwnedProperties)
-            .WithOne(p => p.Owner)
-            .HasForeignKey(p => p.OwnerId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Assembly.Horizon.Application.CQ.Users.Queries.Retrieve;
+﻿using Assembly.Horizon.Application.CQ.Addresses.Commands.Create;
+using Assembly.Horizon.Application.CQ.Users.Queries.Retrieve;
 using Assembly.Horizon.Domain.Model;
 
 namespace Assembly.Horizon.Application.CQ.Properties.Commands.Create;

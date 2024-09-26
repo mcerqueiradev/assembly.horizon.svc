@@ -1,4 +1,7 @@
 ﻿using Assembly.Horizon.Application.Common.Responses;
+using Assembly.Horizon.Application.CQ.Customers.Commands;
+using Assembly.Horizon.Application.CQ.Customers.Queries.Retrieve;
+using Assembly.Horizon.Application.CQ.Customers.Queries.RetrieveAll;
 using Assembly.Horizon.Application.CQ.Realtors.Command.Create;
 using Assembly.Horizon.Application.CQ.Realtors.Queries.Retrieve;
 using Assembly.Horizon.Application.CQ.Realtors.Queries.RetrieveAll;
@@ -8,14 +11,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Assembly.Horizon.WebApi.Controllers;
 
+
 [Route("api/[controller]")]
 [ApiController]
-public class RealtorController(ISender sender) : Controller
+public class CustomerController(ISender sender) : Controller
 {
     [HttpPost("Register")]
     [ProducesResponseType(typeof(CreateUserResponse), 200)]
     [ProducesResponseType(typeof(Error), 400)]
-    public async Task<IActionResult> CreateRealtor([FromBody] CreateRealtorCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateRealtor([FromBody] CreateCustomerCommand command, CancellationToken cancellationToken)
     {
         var result = await sender.Send(command, cancellationToken);
 
@@ -30,7 +34,7 @@ public class RealtorController(ISender sender) : Controller
     [HttpGet("RetrieveAll")]
     public async Task<IActionResult> RetrieveAll(CancellationToken cancellationToken)
     {
-        var result = await sender.Send(new RetrieveAllRealtorsQuery(), cancellationToken);
+        var result = await sender.Send(new RetrieveAllCustomersQuery(), cancellationToken);
 
         if (result.IsSuccess)
         {
@@ -43,7 +47,7 @@ public class RealtorController(ISender sender) : Controller
     [HttpGet("{id}")]
     public async Task<IActionResult> Retrieve(Guid id, CancellationToken cancellationToken)
     {
-        var query = new RetrieveRealtorQuery { Id = id };
+        var query = new RetrieveCustomerQuery { Id = id };
         var result = await sender.Send(query, cancellationToken);
 
         if (result.IsSuccess)
@@ -53,12 +57,4 @@ public class RealtorController(ISender sender) : Controller
 
         return NotFound(result.Error);
     }
-
-    //[HttpPut("{id}")]
-    //public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommand command)
-    //{
-    //    var updatedMember = await sender.Send(command);
-
-    //    return updatedMember != null ? Ok(updatedMember.IsSuccess) : NotFound("User not found.");
-    //}
 }

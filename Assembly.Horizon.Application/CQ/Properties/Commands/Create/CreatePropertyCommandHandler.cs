@@ -10,29 +10,33 @@ public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork) : IRequestHand
 
     public async Task<Result<CreatePropertyResponse, Success, Error>> Handle(CreatePropertyCommand request, CancellationToken cancellationToken)
     {
-        var realtor = await unitOfWork.RealtorRepository.RetrieveAsync(request.RealtorId, cancellationToken);
-        if (realtor != null)
+        var realtor = await unitOfWork.RealtorRepository.RetrieveByUserAsync(request.RealtorId);
+        if (realtor == null)
         {
             return Error.NotFound;
         }
 
-        var owner = await unitOfWork.CustomerRepository.RetrieveAsync(request.OwnerId, cancellationToken);
-        if(owner != null)
-        {
-            return Error.NotFound;
-        }
 
         var address = new Address
         {
+            Id = new Guid(),
+            Street = request.Street,
+            City = request.City,
+            State = request.State,
+            PostalCode = request.PostalCode,
+            Country = request.Country,
+            Reference = request.Reference
         };
 
         var property = new Property
         {
+            Id = new Guid(),
             Title = request.Title,
             Description = request.Description,
             AddressId = address.Id,
+            Address = address,
             RealtorId = realtor.Id,
-            OwnerId = owner.Id,
+            Realtor = realtor,
             Type = request.Type,
             Size = request.Size,
             Bedrooms = request.Bedrooms,
@@ -43,7 +47,8 @@ public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork) : IRequestHand
             LikedByUsers = new List<User>(),
         };
 
-        if(request.Images != null && request.Images.Any()) {
+
+        if (request.Images != null && request.Images.Any()) {
             property.Images = request.Images.Select(image => new PropertyFile(property.Id, image.FileName)).ToList();
         }
 
@@ -56,9 +61,8 @@ public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork) : IRequestHand
             Id = property.Id,
             Title = property.Title,
             Description = property.Description,
-            AddressId = address.Id,
+            AddressId = property.AddressId,
             RealtorId = realtor.Id,
-            OwnerId = owner.Id,
             Type = property.Type,
             Size = property.Size,
             Bedrooms = property.Bedrooms,
@@ -72,3 +76,5 @@ public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork) : IRequestHand
         return response;
     }
 }
+
+// FUNCIONA MAS PRECISA SER CORRIGIDO / MELHORADO
