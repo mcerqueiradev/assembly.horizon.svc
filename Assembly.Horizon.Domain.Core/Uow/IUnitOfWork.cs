@@ -14,6 +14,7 @@ public interface IUnitOfWork
     public IAddressRepository AddressRepository { get; }
     public ITokenService TokenService { get; }
     public IDataProtectionService DataProtectionService { get; }
+    public IFileStorageService FileStorageService { get; }
     bool Commit();
 
     Task<bool> CommitAsync(CancellationToken cancellationToken = default);

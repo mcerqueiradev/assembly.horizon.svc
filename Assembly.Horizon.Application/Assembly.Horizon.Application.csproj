@@ -25,7 +25,6 @@
     <Folder Include="CQ\Contracts\" />
     <Folder Include="CQ\Favorites\Commands\" />
     <Folder Include="CQ\Favorites\Queries\" />
-    <Folder Include="CQ\Properties\Queries\" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using Assembly.Horizon.Domain.Core.Interfaces;
 using Assembly.Horizon.Domain.Core.Uow;
 using Assembly.Horizon.Infra.Data.Context;
+using Assembly.Horizon.Infra.Data.Infrastructure;
 using Assembly.Horizon.Infra.Data.Interceptors;
 using Assembly.Horizon.Infra.Data.Repositories;
 using Assembly.Horizon.Infra.Data.Uow;
@@ -29,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<IPropertyRepository, PropertyRepository>();
         services.AddScoped<IRealtorRepository, RealtorRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IFileStorageService, FileStorageService>();
 
         return services;
     }

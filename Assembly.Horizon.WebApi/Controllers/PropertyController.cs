@@ -13,7 +13,7 @@ public class PropertyController(ISender sender) : Controller
     [HttpPost("Create")]
     [ProducesResponseType(typeof(CreateUserResponse), 200)]
     [ProducesResponseType(typeof(Error), 400)]
-    public async Task<IActionResult> CreateProperty([FromBody] CreatePropertyCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateProperty([FromForm] CreatePropertyCommand command, CancellationToken cancellationToken)
     {
         var result = await sender.Send(command, cancellationToken);
 

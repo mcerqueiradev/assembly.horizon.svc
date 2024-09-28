@@ -21,11 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{48
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assembly.Horizon.WebApi", "Assembly.Horizon.WebApi\Assembly.Horizon.WebApi.csproj", "{B57EE459-8404-48C3-B832-4A84A9BCC740}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Horizon.Security", "Assembly.Horizon.Security\Assembly.Horizon.Security.csproj", "{77C4E367-F831-41FE-8690-048485B90075}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assembly.Horizon.Security", "Assembly.Horizon.Security\Assembly.Horizon.Security.csproj", "{77C4E367-F831-41FE-8690-048485B90075}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Security", "Security", "{3340EAD0-6E1D-4D7C-A0BB-6D9BC0FA97EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Horizon.Domain.Core", "Assembly.Horizon.Domain.Core\Assembly.Horizon.Domain.Core.csproj", "{BC49ADC4-3EDF-403F-89B7-7E3C1749A3C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assembly.Horizon.Domain.Core", "Assembly.Horizon.Domain.Core\Assembly.Horizon.Domain.Core.csproj", "{BC49ADC4-3EDF-403F-89B7-7E3C1749A3C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
