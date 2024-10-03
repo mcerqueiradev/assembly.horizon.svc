@@ -2,6 +2,8 @@
 using Assembly.Horizon.Domain.Model;
 using Assembly.Horizon.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Threading;
 
 namespace Assembly.Horizon.Infra.Data.Repositories;
 
@@ -14,5 +16,25 @@ public class PropertyRepository : PaginatedRepository<Property, Guid>, IProperty
     {
         _context = context;
         _dbSet = context.Set<Property>();
+    }
+    public async Task<Property> RetrieveAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await DbSet
+            .Include(p => p.Address)
+            .Include(p => p.Images)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+    }
+
+
+    public async Task<List<Property>> RetrieveAllAsync(CancellationToken cancellationToken = default)
+    {
+        var properties = await DbSet
+            .Include(p => p.Address)
+            .Include(p => p.Images)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+
+        return properties;
     }
 }
