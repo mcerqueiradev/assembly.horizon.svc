@@ -56,7 +56,7 @@ public class UserController(ISender sender) : Controller
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommand command)
+    public async Task<IActionResult> UpdateUser([FromForm] UpdateUserCommand command)
     {
         var updatedMember = await sender.Send(command);
 

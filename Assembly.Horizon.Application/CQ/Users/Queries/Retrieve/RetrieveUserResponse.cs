@@ -4,15 +4,15 @@ namespace Assembly.Horizon.Application.CQ.Users.Queries.Retrieve;
 
 public class RetrieveUserResponse
 {
-    public required Guid Id { get; set; }
-    public required string FirstName { get; set; }
-    public required string LastName { get; set; }
-    public required string Email { get; set; }
-    public required Access Access { get; set; }
-    public required string ImageUrl { get; set; }
-    public required string PhoneNumber { get; set; }
-    public required DateTime DateOfBirth { get; set; }
-    public required bool IsActive { get; set; }
-    public required DateTime? LastActiveDate { get; set; }
+    public  Guid Id { get; set; }
+    public  string FirstName { get; set; }
+    public  string LastName { get; set; }
+    public  string Email { get; set; }
+    public  Access Access { get; set; }
+    public  string? ImageUrl { get; set; }
+    public  string? PhoneNumber { get; set; }
+    public  DateTime? DateOfBirth { get; set; }
+    public  bool IsActive { get; set; }
+    public  DateTime? LastActiveDate { get; set; }
 
 }

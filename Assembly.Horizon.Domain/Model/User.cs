@@ -13,9 +13,9 @@ public class User : AuditableEntity, IEntity<Guid>
     public Access Access { get; set; }
     public string? ImageUrl { get; set; }
     [NotMapped]
-    public IFormFile Upload { get; set; }
-    public string PhoneNumber { get; set; }
-    public DateTime DateOfBirth { get; set; }
+    public IFormFile? Upload { get; set; }
+    public string? PhoneNumber { get; set; }
+    public DateTime? DateOfBirth { get; set; }
     public List<Property> FavoriteProperties { get; set; } = new();
     public bool IsActive { get; set; }
     public DateTime? LastActiveDate { get; set; }

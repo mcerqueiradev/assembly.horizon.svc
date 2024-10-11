@@ -21,14 +21,5 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Password is required.")
             .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
-
-        RuleFor(x => x.PhoneNumber)
-            .NotEmpty().WithMessage("Phone number is required.")
-            .Matches(@"^\+?[1-9]\d{1,14}$").WithMessage("A valid phone number is required.");
-
-        RuleFor(x => x.DateOfBirth)
-            .NotEmpty().WithMessage("Date of birth is required.")
-            .LessThan(DateTime.Now).WithMessage("Date of birth must be in the past.")
-            .GreaterThan(DateTime.Now.AddYears(-120)).WithMessage("Date of birth is not valid.");
     }
 }

@@ -82,5 +82,3 @@ public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork, IFileStorageSe
         return response;
     }
 }
-
-// FUNCIONA MAS PRECISA SER CORRIGIDO / MELHORADO
