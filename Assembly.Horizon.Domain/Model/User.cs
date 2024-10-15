@@ -37,14 +37,12 @@ public class User : AuditableEntity, IEntity<Guid>
         LastActiveDate = lastActiveDate;
     }
 }
-
 public enum Access
 {
-    None,
-    Guest,
-    User,
-    Realtor,
-    Admin,
-    Disabled
+    UnassignedAccount,
+    GuestVisitor,     
+    RegisteredClient,
+    LicensedAgent,
+    SystemAdministrator,
+    SuspendedUser    
 }
-

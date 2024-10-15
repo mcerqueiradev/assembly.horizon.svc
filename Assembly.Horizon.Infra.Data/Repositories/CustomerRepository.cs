@@ -15,4 +15,14 @@ public class CustomerRepository : PaginatedRepository<Customer, Guid>, ICustomer
         _context = context;
         _dbSet = context.Set<Customer>();
     }
+
+    public async Task<Customer> RetrieveByUserIdAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        return await DbSet
+            .Include(r => r.User)
+            .ThenInclude(u => u.Account)
+            .FirstOrDefaultAsync(c => c.UserId == userId, cancellationToken);
+    }
+
+
 }

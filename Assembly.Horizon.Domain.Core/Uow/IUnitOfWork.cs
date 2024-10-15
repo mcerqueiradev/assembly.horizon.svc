@@ -10,11 +10,13 @@ public interface IUnitOfWork
     public IAccountRepository AccountRepository { get; }
     public IRealtorRepository RealtorRepository { get; }
     public ICustomerRepository CustomerRepository { get; }
+    public IContractRepository ContractRepository { get; }
     public IPropertyRepository PropertyRepository { get; }
     public IAddressRepository AddressRepository { get; }
     public ITokenService TokenService { get; }
     public IDataProtectionService DataProtectionService { get; }
     public IFileStorageService FileStorageService { get; }
+    public IPdfGenerationService PdfGenerationService { get; }
     bool Commit();
 
     Task<bool> CommitAsync(CancellationToken cancellationToken = default);

@@ -20,4 +20,12 @@ public class RealtorRepository : PaginatedRepository<Realtor, Guid>, IRealtorRep
     {
         return await _context.Realtors.FirstOrDefaultAsync(u => u.UserId == id);
     }
+
+    public async Task<Realtor> RetrieveByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
+    {
+        return await DbSet
+            .Include(r => r.User)
+            .ThenInclude(u => u.Account)
+            .FirstOrDefaultAsync(r => r.UserId == userId, cancellationToken);
+    }
 }

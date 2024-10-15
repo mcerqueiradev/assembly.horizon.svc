@@ -3,6 +3,7 @@ using Assembly.Horizon.Application.CQ.Users.Commands.Create;
 using Assembly.Horizon.Application.CQ.Users.Commands.Update;
 using Assembly.Horizon.Application.CQ.Users.Queries.Retrieve;
 using Assembly.Horizon.Application.CQ.Users.Queries.RetrieveAll;
+using Assembly.Horizon.Application.CQ.Users.Queries.RetrieveNonAdmins;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +33,19 @@ public class UserController(ISender sender) : Controller
     public async Task<IActionResult> RetrieveAll(CancellationToken cancellationToken)
     {
         var result = await sender.Send(new RetrieveAllUsersQuery(), cancellationToken);
+
+        if (result.IsSuccess)
+        {
+            return Ok(result.Value);
+        }
+
+        return NotFound(result.Error);
+    }
+
+    [HttpGet("RetrieveNonAdmins")]
+    public async Task<IActionResult> RetrieveNonAdmins(CancellationToken cancellationToken)
+    {
+        var result = await sender.Send(new RetrieveNonAdminsQuery(), cancellationToken);
 
         if (result.IsSuccess)
         {

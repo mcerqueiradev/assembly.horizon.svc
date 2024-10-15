@@ -20,6 +20,9 @@ internal class PropertyConfiguration : IEntityTypeConfiguration<Property>
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.Property(p => p.Price)
+           .HasPrecision(18, 2);  // 18 dígitos no total, 2 casas decimais
+
         // Relacionamento 1:N entre Property e PropertyFile (Images)
         builder.HasMany(p => p.Images)
             .WithOne(img => img.Property)

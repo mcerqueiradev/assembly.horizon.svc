@@ -11,46 +11,46 @@ public class RetrieveAllPropertiesQueryHandler(IUnitOfWork unitOfWork, IHttpCont
     public async Task<Result<RetrieveAllPropertiesResponse, Success, Error>> Handle(RetrieveAllPropertiesQuery request, CancellationToken cancellationToken)
     {
 
-        var baseUrl = $"{httpContextAccessor.HttpContext.Request.Scheme}://{httpContextAccessor.HttpContext.Request.Host}";
+            var baseUrl = $"{httpContextAccessor.HttpContext.Request.Scheme}://{httpContextAccessor.HttpContext.Request.Host}";
 
-        var properties = await unitOfWork.PropertyRepository.RetrieveAllAsync(cancellationToken);
+            var properties = await unitOfWork.PropertyRepository.RetrieveAllAsync(cancellationToken);
 
-        if (properties == null || !properties.Any())
-            return Error.NotFound;
+            if (properties == null || !properties.Any())
+                return Error.NotFound;
 
-        var propertiesResponses = properties.Select(property => new RetrievePropertyResponse
-        {
-            Id = property.Id,
-            Title = property.Title,
-            Description = property.Description,
-            Street = property.Address.Street,
-            City = property.Address.City,
-            State = property.Address.State,
-            PostalCode = property.Address.PostalCode,
-            Country = property.Address.Country,
-            Reference = property.Address.Reference,
-            RealtorId = property.RealtorId,
-            Type = property.Type,
-            Size = property.Size,
-            Bedrooms = property.Bedrooms,
-            Bathrooms = property.Bathrooms,
-            Price = property.Price,
-            Amenities = property.Amenities,
-            Status = property.Status,
-            Images = property.Images.Select(img => new PropertyImageResponse
+            var propertiesResponses = properties.Select(property => new RetrievePropertyResponse
             {
-                Id = img.Id,
-                FileName = img.FileName,
-                ImagePath = $"{baseUrl}/uploads/{img.FileName}"
-            }).ToList(),
+                Id = property.Id,
+                Title = property.Title,
+                Description = property.Description,
+                Street = property.Address.Street,
+                City = property.Address.City,
+                State = property.Address.State,
+                PostalCode = property.Address.PostalCode,
+                Country = property.Address.Country,
+                Reference = property.Address.Reference,
+                RealtorId = property.RealtorId,
+                Type = property.Type,
+                Size = property.Size,
+                Bedrooms = property.Bedrooms,
+                Bathrooms = property.Bathrooms,
+                Price = property.Price,
+                Amenities = property.Amenities,
+                Status = property.Status,
+                Images = property.Images.Select(img => new PropertyImageResponse
+                {
+                    Id = img.Id,
+                    FileName = img.FileName,
+                    ImagePath = $"{baseUrl}/uploads/{img.FileName}"
+                }).ToList(),
 
-            IsActive = property.IsActive
-        }).ToList();
+                IsActive = property.IsActive
+            }).ToList();
 
 
-        var response = new RetrieveAllPropertiesResponse { Properties = propertiesResponses };
+            var response = new RetrieveAllPropertiesResponse { Properties = propertiesResponses };
 
-        return response;
+            return response;
     }
 }
 

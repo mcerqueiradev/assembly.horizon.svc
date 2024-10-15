@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Assembly.Horizon.Infra.Data;
 
@@ -31,6 +32,18 @@ public static class DependencyInjection
         services.AddScoped<IRealtorRepository, RealtorRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IFileStorageService, FileStorageService>();
+        services.AddScoped<IContractRepository, ContractRepository>();
+
+        services.AddSingleton<IPdfGenerationService>(sp =>
+        {
+            var logger = sp.GetRequiredService<ILogger<PdfGenerationService>>();
+            return new PdfGenerationService(
+                configuration["PdfOutput:Directory"], // Apenas o diretório de saída
+                logger
+            );
+        });
+
+
 
         return services;
     }

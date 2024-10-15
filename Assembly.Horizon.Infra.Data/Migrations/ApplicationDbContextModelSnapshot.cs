@@ -178,8 +178,11 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("AdditionalFees")
-                        .HasColumnType("float");
+                    b.Property<decimal>("AdditionalFees")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ContractType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -191,8 +194,17 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("DocumentPath")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("InsuranceDetails")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -200,9 +212,14 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.Property<DateTime?>("LastActiveDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<string>("PaymentFrequency")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid>("PropertyId")
                         .HasColumnType("uniqueidentifier");
@@ -213,16 +230,22 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.Property<bool>("RenewalOption")
                         .HasColumnType("bit");
 
+                    b.Property<decimal?>("SecurityDeposit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("SignatureDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TerminationClauses")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
-                    b.Property<string>("TermsAndConditions")
+                    b.Property<string>("TemplateVersion")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("UpdateAt")
                         .HasColumnType("datetime2");
@@ -231,8 +254,8 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Value")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -389,6 +412,7 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("RealtorId")
@@ -613,7 +637,7 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImageUrl")
@@ -626,7 +650,6 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdateAt")
@@ -871,7 +894,7 @@ namespace Assembly.Horizon.Infra.Data.Migrations
 
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.User", b =>
                 {
-                    b.OwnsOne("Assembly.Horizon.Domain.Model.Name", "Name", b1 =>
+                    b.OwnsOne("Assembly.Horizon.Domain.Model.User.Name#Assembly.Horizon.Domain.Model.Name", "Name", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");

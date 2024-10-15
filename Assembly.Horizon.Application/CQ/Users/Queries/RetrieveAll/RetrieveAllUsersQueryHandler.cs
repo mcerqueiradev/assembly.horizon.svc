@@ -23,7 +23,7 @@ public class RetrieveAllUsersQueryHandler(IUnitOfWork unitOfWork, IHttpContextAc
             FirstName = user.Name.FirstName,
             LastName = user.Name.LastName,
             Email = user.Account.Email,
-            Access = user.Access,
+            Access = user.Access.ToString(),
             ImageUrl = user.ImageUrl != null ? $"{baseUrl}/uploads/{user.ImageUrl}" : null,
             PhoneNumber = user.PhoneNumber,
             DateOfBirth = user.DateOfBirth,

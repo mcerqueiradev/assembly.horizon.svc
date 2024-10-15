@@ -5,4 +5,5 @@ namespace Assembly.Horizon.Domain.Core.Interfaces;
 
 public interface ICustomerRepository : IRepository<Customer, Guid>
 {
+    Task<Customer> RetrieveByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
 }

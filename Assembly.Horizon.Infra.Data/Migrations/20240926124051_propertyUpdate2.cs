@@ -10,10 +10,6 @@ namespace Assembly.Horizon.Infra.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "CustomerId",
-                schema: "Horizon",
-                table: "Properties");
         }
 
         /// <inheritdoc />

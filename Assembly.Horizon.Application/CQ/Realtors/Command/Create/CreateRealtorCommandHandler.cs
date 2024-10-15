@@ -42,7 +42,7 @@ public class CreateRealtorCommandHandler(IUnitOfWork unitOfWork) : IRequestHandl
             return Error.NotFound;
         }
 
-        updateAccess.Access = Access.Realtor;
+        updateAccess.Access = Access.LicensedAgent;
 
         await unitOfWork.UserRepository.UpdateAsync(updateAccess, cancellationToken);  
         await unitOfWork.CommitAsync(cancellationToken);

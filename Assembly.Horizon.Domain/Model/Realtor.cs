@@ -8,7 +8,7 @@ public class Realtor : AuditableEntity, IEntity<Guid>
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public User User { get; set; }
-    public List<Property> Properties { get; set; } = new();
+    public ICollection<Property> Properties { get; set; }
     public string OfficeEmail { get; set; }
     public int TotalSales { get; set; }
     public int TotalListings { get; set; }

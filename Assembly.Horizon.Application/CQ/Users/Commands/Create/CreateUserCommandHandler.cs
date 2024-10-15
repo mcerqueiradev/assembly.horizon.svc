@@ -32,7 +32,7 @@ public class CreateUserCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<
                 PhoneNumber = request.PhoneNumber ?? string.Empty,
                 DateOfBirth = request.DateOfBirth,
                 IsActive = true,
-                Access = Access.Guest,
+                Access = Access.GuestVisitor,
                 LastActiveDate = DateTime.Now,
             };
 

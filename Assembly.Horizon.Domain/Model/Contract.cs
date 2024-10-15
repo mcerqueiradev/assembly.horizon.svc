@@ -15,45 +15,83 @@ public class Contract : AuditableEntity, IEntity<Guid>
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public double Value { get; set; }
-    public string TermsAndConditions { get; set; }
     public double AdditionalFees { get; set; }
     public string PaymentFrequency { get; set; }
     public bool RenewalOption { get; set; }
-    public string TerminationClauses { get; set; }
     public bool IsActive { get; set; }
     public DateTime? LastActiveDate { get; set; }
+    public ContractType ContractType { get; set; }
+    public ContractStatus Status { get; set; }
+    public DateTime SignatureDate { get; set; }
+    public decimal? SecurityDeposit { get; set; }
+    public string? InsuranceDetails { get; set; }
+    public string? Notes { get; set; }
+    public string DocumentPath { get; set; }
+    public string TemplateVersion { get; set; }
 
-    private Contract()
+    public Contract()
     {
         Id = Guid.NewGuid();
     }
+
     public Contract(
         Guid id,
         Guid propertyId,
         Guid customerId,
+        Guid realtorId,
         DateTime startDate,
         DateTime endDate,
         double value,
-        string termsAndConditions,
         double additionalFees,
         string paymentFrequency,
         bool renewalOption,
-        string terminationClauses,
         bool isActive,
-        DateTime? lastActiveDate)
+        DateTime? lastActiveDate,
+        ContractType contractType,
+        ContractStatus status,
+        DateTime signatureDate,
+        decimal? securityDeposit,
+        string insuranceDetails,
+        string notes,
+        string documentPath,
+        string templateVersion)
     {
         Id = id;
         PropertyId = propertyId;
         CustomerId = customerId;
+        RealtorId = realtorId;
         StartDate = startDate;
         EndDate = endDate;
         Value = value;
-        TermsAndConditions = termsAndConditions;
         AdditionalFees = additionalFees;
         PaymentFrequency = paymentFrequency;
         RenewalOption = renewalOption;
-        TerminationClauses = terminationClauses;
         IsActive = isActive;
         LastActiveDate = lastActiveDate;
+        ContractType = contractType;
+        Status = status;
+        SignatureDate = signatureDate;
+        SecurityDeposit = securityDeposit;
+        InsuranceDetails = insuranceDetails;
+        Notes = notes;
+        DocumentPath = documentPath;
+        TemplateVersion = templateVersion;
     }
+}
+
+public enum ContractType
+{
+    Sale,
+    Rent,
+    LeaseToOwn
+}
+
+public enum ContractStatus
+{
+    Draft,
+    Pending,
+    Active,
+    Completed,
+    Terminated,
+    Expired
 }

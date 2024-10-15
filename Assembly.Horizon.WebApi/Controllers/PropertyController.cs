@@ -2,9 +2,6 @@
 using Assembly.Horizon.Application.CQ.Properties.Commands.Create;
 using Assembly.Horizon.Application.CQ.Properties.Queries.Retrieve;
 using Assembly.Horizon.Application.CQ.Properties.Queries.RetrieveAll;
-using Assembly.Horizon.Application.CQ.Realtors.Queries.Retrieve;
-using Assembly.Horizon.Application.CQ.Users.Commands.Create;
-using Assembly.Horizon.Application.CQ.Users.Queries.RetrieveAll;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +12,7 @@ namespace Assembly.Horizon.WebApi.Controllers;
 public class PropertyController(ISender sender) : Controller
 {
     [HttpPost("Create")]
-    [ProducesResponseType(typeof(CreateUserResponse), 200)]
+    [ProducesResponseType(typeof(CreatePropertyResponse), 200)]
     [ProducesResponseType(typeof(Error), 400)]
     public async Task<IActionResult> CreateProperty([FromForm] CreatePropertyCommand command, CancellationToken cancellationToken)
     {
