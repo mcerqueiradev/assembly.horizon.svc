@@ -18,11 +18,18 @@ public class CustomerRepository : PaginatedRepository<Customer, Guid>, ICustomer
 
     public async Task<Customer> RetrieveByUserIdAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return await DbSet
-            .Include(r => r.User)
-            .ThenInclude(u => u.Account)
+        return await _dbSet
+            .Include(c => c.User)  // Inclui o User associado ao Customer
+            .ThenInclude(u => u.Account)  // Inclui a Account associada ao User
             .FirstOrDefaultAsync(c => c.UserId == userId, cancellationToken);
     }
 
+    public async Task<Customer> RetrieveAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _dbSet
+            .Include(c => c.User)  // Inclui o User associado ao Customer
+            .ThenInclude(u => u.Account)  // Inclui a Account associada ao User
+            .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+    }
 
 }

@@ -38,8 +38,9 @@ public static class DependencyInjection
         {
             var logger = sp.GetRequiredService<ILogger<PdfGenerationService>>();
             return new PdfGenerationService(
-                configuration["PdfOutput:Directory"], // Apenas o diretório de saída
-                logger
+                configuration["PdfOutput:Directory"], // Diretório de saída
+                logger,
+                configuration // Passando IConfiguration
             );
         });
 

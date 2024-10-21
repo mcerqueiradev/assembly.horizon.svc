@@ -34,7 +34,6 @@ public class CreateRealtorCommandHandler(IUnitOfWork unitOfWork) : IRequestHandl
         };
 
         await unitOfWork.RealtorRepository.AddAsync(realtor, cancellationToken);
-        await unitOfWork.CommitAsync(cancellationToken);
 
         var updateAccess = await unitOfWork.UserRepository.RetrieveAsync(request.UserId, cancellationToken);
         if (updateAccess == null)

@@ -21,11 +21,20 @@ public class RealtorRepository : PaginatedRepository<Realtor, Guid>, IRealtorRep
         return await _context.Realtors.FirstOrDefaultAsync(u => u.UserId == id);
     }
 
-    public async Task<Realtor> RetrieveByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<Realtor> RetrieveByUserIdAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return await DbSet
-            .Include(r => r.User)
-            .ThenInclude(u => u.Account)
-            .FirstOrDefaultAsync(r => r.UserId == userId, cancellationToken);
+        return await _dbSet
+            .Include(c => c.User)  // Inclui o User associado ao Customer
+            .ThenInclude(u => u.Account)  // Inclui a Account associada ao User
+            .FirstOrDefaultAsync(c => c.UserId == userId, cancellationToken);
     }
+
+    public async Task<Realtor> RetrieveAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _dbSet
+            .Include(c => c.User)  // Inclui o User associado ao Customer
+            .ThenInclude(u => u.Account)  // Inclui a Account associada ao User
+            .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+    }
+
 }

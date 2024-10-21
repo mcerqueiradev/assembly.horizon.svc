@@ -2,6 +2,7 @@
 using Assembly.Horizon.Application.CQ.Properties.Commands.Create;
 using Assembly.Horizon.Application.CQ.Properties.Queries.Retrieve;
 using Assembly.Horizon.Application.CQ.Properties.Queries.RetrieveAll;
+using Assembly.Horizon.Application.CQ.Properties.Queries.RetrieveLatest;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +44,20 @@ public class PropertyController(ISender sender) : Controller
     public async Task<IActionResult> Retrieve(Guid id, CancellationToken cancellationToken)
     {
         var query = new RetrievePropertyQuery { Id = id };
+        var result = await sender.Send(query, cancellationToken);
+
+        if (result.IsSuccess)
+        {
+            return Ok(result.Value);
+        }
+
+        return NotFound(result.Error);
+    }
+
+    [HttpGet("RetrieveLatest")]
+    public async Task<IActionResult> RetrieveLatest(CancellationToken cancellationToken)
+    {
+        var query = new RetrieveLatestPropertyQuery();
         var result = await sender.Send(query, cancellationToken);
 
         if (result.IsSuccess)
