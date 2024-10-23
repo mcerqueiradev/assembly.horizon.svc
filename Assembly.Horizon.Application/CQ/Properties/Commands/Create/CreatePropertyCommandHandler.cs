@@ -16,6 +16,11 @@ public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork, IFileStorageSe
             return Error.NotFound;
         }
 
+        var category = await unitOfWork.CategoryRepository.RetrieveAsync(request.CategoryId);
+        if (category == null)
+        {
+            return Error.NotFound;
+        }
 
         var address = new Address
         {
@@ -44,6 +49,7 @@ public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork, IFileStorageSe
             Price = request.Price,
             Amenities = request.Amenities,
             Status = request.Status,
+            CategoryId = category.Id,
             LikedByUsers = new List<User>(),
             Images = new List<PropertyFile>()
         };
@@ -75,8 +81,8 @@ public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork, IFileStorageSe
             Price = property.Price,
             Amenities = property.Amenities,
             Status = property.Status,
-            Images = property.Images
-
+            Images = property.Images,
+            CategoryId = property.CategoryId
         };
 
         return response;

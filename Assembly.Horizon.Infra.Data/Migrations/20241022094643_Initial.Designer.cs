@@ -4,6 +4,7 @@ using Assembly.Horizon.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assembly.Horizon.Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241022094643_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,15 +202,12 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("DurationInMonths")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("InsuranceDetails")
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -245,6 +245,11 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<string>("TemplateVersion")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<DateTime>("UpdateAt")
                         .HasColumnType("datetime2");
 
@@ -263,7 +268,7 @@ namespace Assembly.Horizon.Infra.Data.Migrations
 
                     b.HasIndex("RealtorId");
 
-                    b.ToTable("Contract", "Horizon");
+                    b.ToTable("Contracts", "Horizon");
                 });
 
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.Customer", b =>
@@ -328,60 +333,6 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Favorites", "Horizon");
-                });
-
-            modelBuilder.Entity("Assembly.Horizon.Domain.Model.Invoice", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("ContractId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InvoiceNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("IssueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("TransactionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContractId");
-
-                    b.HasIndex("TransactionId")
-                        .IsUnique()
-                        .HasFilter("[TransactionId] IS NOT NULL");
-
-                    b.ToTable("Invoice", "Horizon");
                 });
 
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.Notification", b =>
@@ -609,12 +560,6 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("ContractId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -622,29 +567,42 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("InvoiceId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Invoice")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsBuyer")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsTenant")
+                        .HasColumnType("bit");
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PropertyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RealtorId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TransactionHistory")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TransactionStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdateAt")
                         .HasColumnType("datetime2");
@@ -653,11 +611,18 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ContractId");
+                    b.HasIndex("CustomerId");
 
-                    b.ToTable("Transaction", "Horizon");
+                    b.HasIndex("PropertyId");
+
+                    b.HasIndex("RealtorId");
+
+                    b.ToTable("Transactions", "Horizon");
                 });
 
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.User", b =>
@@ -813,24 +778,6 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Assembly.Horizon.Domain.Model.Invoice", b =>
-                {
-                    b.HasOne("Assembly.Horizon.Domain.Model.Contract", "Contract")
-                        .WithMany("Invoices")
-                        .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Assembly.Horizon.Domain.Model.Transaction", "Transaction")
-                        .WithOne("Invoice")
-                        .HasForeignKey("Assembly.Horizon.Domain.Model.Invoice", "TransactionId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Contract");
-
-                    b.Navigation("Transaction");
-                });
-
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.Notification", b =>
                 {
                     b.HasOne("Assembly.Horizon.Domain.Model.Customer", "RecipientUser")
@@ -928,13 +875,29 @@ namespace Assembly.Horizon.Infra.Data.Migrations
 
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.Transaction", b =>
                 {
-                    b.HasOne("Assembly.Horizon.Domain.Model.Contract", "Contract")
-                        .WithMany("Transactions")
-                        .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("Assembly.Horizon.Domain.Model.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Contract");
+                    b.HasOne("Assembly.Horizon.Domain.Model.Property", "Property")
+                        .WithMany()
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Assembly.Horizon.Domain.Model.Realtor", "Realtor")
+                        .WithMany()
+                        .HasForeignKey("RealtorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Property");
+
+                    b.Navigation("Realtor");
                 });
 
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.User", b =>
@@ -988,13 +951,6 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.Navigation("Properties");
                 });
 
-            modelBuilder.Entity("Assembly.Horizon.Domain.Model.Contract", b =>
-                {
-                    b.Navigation("Invoices");
-
-                    b.Navigation("Transactions");
-                });
-
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.Property", b =>
                 {
                     b.Navigation("Images");
@@ -1003,12 +959,6 @@ namespace Assembly.Horizon.Infra.Data.Migrations
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.Realtor", b =>
                 {
                     b.Navigation("Properties");
-                });
-
-            modelBuilder.Entity("Assembly.Horizon.Domain.Model.Transaction", b =>
-                {
-                    b.Navigation("Invoice")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.User", b =>

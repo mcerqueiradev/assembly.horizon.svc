@@ -14,6 +14,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Favorites> Favorites { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<Invoice> Invoices { get; set; }
+    public DbSet<Contract> Contracts { get; set; }
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<Property> Properties { get; set; }
     public DbSet<PropertyFile> PropertyFiles { get; set; }
@@ -42,13 +44,14 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
         modelBuilder.ApplyConfiguration(new CommentConfiguration());
         modelBuilder.ApplyConfiguration(new FavoritesConfiguration());
-        modelBuilder.ApplyConfiguration(new TransactionsConfiguration());
+        modelBuilder.ApplyConfiguration(new TransactionConfiguration());
         modelBuilder.ApplyConfiguration(new NotificationsConfiguration());
         modelBuilder.ApplyConfiguration(new PropertyConfiguration());
         modelBuilder.ApplyConfiguration(new PropertyFileConfiguration());
         modelBuilder.ApplyConfiguration(new PropertyVisitConfiguration());
         modelBuilder.ApplyConfiguration(new ContractConfiguration());
         modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+        modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
 
         modelBuilder.HasDefaultSchema("Horizon");
     }

@@ -17,6 +17,8 @@ public interface IUnitOfWork
     public IDataProtectionService DataProtectionService { get; }
     public IFileStorageService FileStorageService { get; }
     public IPdfGenerationService PdfGenerationService { get; }
+    public IFavoritesRepository FavoritesRepository { get; }
+    public ICategoryRepository CategoryRepository { get; }
     bool Commit();
 
     Task<bool> CommitAsync(CancellationToken cancellationToken = default);

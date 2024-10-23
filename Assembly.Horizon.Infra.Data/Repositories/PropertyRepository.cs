@@ -22,6 +22,7 @@ public class PropertyRepository : PaginatedRepository<Property, Guid>, IProperty
         return await DbSet
             .Include(p => p.Address)
             .Include(p => p.Images)
+            .Include(p => p.Category)
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
@@ -32,6 +33,7 @@ public class PropertyRepository : PaginatedRepository<Property, Guid>, IProperty
         var properties = await DbSet
             .Include(p => p.Address)
             .Include(p => p.Images)
+            .Include(p => p.Category)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 

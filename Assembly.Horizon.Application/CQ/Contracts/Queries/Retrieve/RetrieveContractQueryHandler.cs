@@ -68,7 +68,6 @@ public class RetrieveContractQueryHandler(IUnitOfWork unitOfWork, IHttpContextAc
             SecurityDeposit = contract.SecurityDeposit,
             InsuranceDetails = contract.InsuranceDetails,
             Notes = contract.Notes,
-            TemplateVersion = contract.TemplateVersion,
             DocumentPath = contract.DocumentPath != null ?
                 $"{baseUrl}/{contract.DocumentPath.Replace("\\", "/")}" : null,
 

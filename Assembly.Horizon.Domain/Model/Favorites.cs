@@ -14,7 +14,7 @@ public class Favorites : IEntity<Guid>
     public DateTime DateAdded { get; set; }
     public string Notes { get; set; }
 
-    private Favorites()
+    public Favorites()
     {
         Id = Guid.NewGuid();
     }

@@ -33,6 +33,8 @@ public static class DependencyInjection
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IFileStorageService, FileStorageService>();
         services.AddScoped<IContractRepository, ContractRepository>();
+        services.AddScoped<IFavoritesRepository, FavoritesRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         services.AddSingleton<IPdfGenerationService>(sp =>
         {

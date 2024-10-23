@@ -8,7 +8,18 @@ using System.Data.Common;
 namespace Assembly.Horizon.Infra.Data.Uow;
 
 internal class UnitOfWork(ApplicationDbContext context, IUserRepository userRepository,
-    ITokenService tokenService, IDataProtectionService dataProtectionService, IFileStorageService fileStorageService, IAccountRepository accountRepository, IPdfGenerationService pdfGenerationService,IContractRepository contractRepository, ICustomerRepository customerRepository, IAddressRepository addressRepository, IRealtorRepository realtorRepository, IPropertyRepository propertyRepository) : IUnitOfWork
+    ITokenService tokenService, 
+    IDataProtectionService dataProtectionService, 
+    IFileStorageService fileStorageService, 
+    IFavoritesRepository favoritesRepository ,
+    IAccountRepository accountRepository, 
+    IPdfGenerationService pdfGenerationService,
+    IContractRepository contractRepository, 
+    ICustomerRepository customerRepository, 
+    IAddressRepository addressRepository, 
+    IRealtorRepository realtorRepository, 
+    IPropertyRepository propertyRepository,
+    ICategoryRepository categoryRepository) : IUnitOfWork
 {
     private IDbContextTransaction? _transaction;
     private bool _disposed;
@@ -20,10 +31,12 @@ internal class UnitOfWork(ApplicationDbContext context, IUserRepository userRepo
     public IContractRepository ContractRepository => contractRepository;
     public IPropertyRepository PropertyRepository => propertyRepository;
     public IAddressRepository AddressRepository => addressRepository;
+    public IFavoritesRepository FavoritesRepository => favoritesRepository;
     public ITokenService TokenService => tokenService;
     public IDataProtectionService DataProtectionService => dataProtectionService;
     public IFileStorageService FileStorageService => fileStorageService;
     public IPdfGenerationService  PdfGenerationService => pdfGenerationService;
+    public ICategoryRepository CategoryRepository => categoryRepository;
 
     public bool Commit()
     {

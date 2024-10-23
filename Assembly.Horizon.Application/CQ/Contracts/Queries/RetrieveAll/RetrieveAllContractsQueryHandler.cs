@@ -62,7 +62,6 @@ public class RetrieveAllContractsQueryHandler(IUnitOfWork unitOfWork, IHttpConte
                 SecurityDeposit = contract.SecurityDeposit,
                 InsuranceDetails = contract.InsuranceDetails,
                 Notes = contract.Notes,
-                TemplateVersion = contract.TemplateVersion,
                 DocumentPath = contract.DocumentPath != null ? $"{baseUrl}/{contract.DocumentPath}" : null,
 
                 CustomerName = $"{customer?.User.Name.FirstName} {customer?.User.Name.LastName}".Trim(),

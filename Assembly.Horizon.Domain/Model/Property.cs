@@ -23,6 +23,8 @@ public class Property : AuditableEntity, IEntity<Guid>
     public List<User> LikedByUsers { get; set; } = new();
     public bool IsActive { get; set; }
     public DateTime? LastActiveDate { get; set; }
+    public Guid CategoryId { get; set; }
+    public Category Category { get; set; }
 
     public Property() { }
 
@@ -43,7 +45,8 @@ public class Property : AuditableEntity, IEntity<Guid>
         List<User> likedByUsers,
         bool isActive,
         DateTime? lastActiveDate,
-        Realtor realtor)
+        Realtor realtor,
+        Category category)
     {
         Id = id;
         Title = title;
@@ -63,19 +66,15 @@ public class Property : AuditableEntity, IEntity<Guid>
         LastActiveDate = lastActiveDate;
         Realtor = realtor;
         RealtorId = realtor.Id;
+        Category = category;
+        CategoryId = category.Id;
     }
 }
 
-// Enums permanecem inalterados
 public enum PropertyType
 {
-    House,
-    Apartment,
-    Condo,
-    Townhouse,
-    Land,
-    Commercial,
-    Other
+    Rent,
+    Sale
 }
 
 public enum PropertyStatus

@@ -23,5 +23,5 @@ public class CreateContractCommand : IRequest<Result<CreateContractResponse, Suc
     public decimal? SecurityDeposit { get; init; }
     public string InsuranceDetails { get; init; }
     public string Notes { get; init; }
-    public string TemplateVersion { get; init; }
+    public int DurationInMonths { get; init; }
 }

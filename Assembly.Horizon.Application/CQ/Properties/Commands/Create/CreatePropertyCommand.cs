@@ -25,4 +25,5 @@ public class CreatePropertyCommand : IRequest<Result<CreatePropertyResponse, Suc
     public PropertyStatus Status { get; init; }
     public List<IFormFile> Images { get; set; }
     public bool IsActive { get; init; }
+    public Guid CategoryId { get; init; }
 }

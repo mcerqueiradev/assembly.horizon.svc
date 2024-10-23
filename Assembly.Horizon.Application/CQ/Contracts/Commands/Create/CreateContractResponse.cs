@@ -4,16 +4,17 @@ namespace Assembly.Horizon.Application.CQ.Contracts.Commands.Create;
 
 public class CreateContractResponse
 {
-    public Guid Id { get; init; }
-    public Guid PropertyId { get; init; }
-    public Guid CustomerId { get; init; }
-    public Guid RealtorId { get; init; }
-    public DateTime StartDate { get; init; }
-    public DateTime EndDate { get; init; }
-    public double Value { get; init; }
-    public bool IsActive { get; init; }
-    public ContractType ContractType { get; init; }
-    public ContractStatus Status { get; init; }
-    public DateTime SignatureDate { get; init; }
-    public string DocumentPath { get; init; }
+    public Guid Id { get; set; }
+    public Guid PropertyId { get; set; }
+    public Guid CustomerId { get; set; }
+    public Guid RealtorId { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
+    public double Value { get; set; }
+    public bool IsActive { get; set; }
+    public ContractType ContractType { get; set; }
+    public ContractStatus Status { get; set; }
+    public DateTime SignatureDate { get; set; }
+    public string DocumentPath { get; set; }
+    public int DurationInMonths { get; set; }
 }

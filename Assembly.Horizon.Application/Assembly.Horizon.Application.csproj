@@ -25,8 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQ\Categories\" />
-    <Folder Include="CQ\Favorites\Commands\" />
+    <Folder Include="CQ\Categories\Commands\" />
     <Folder Include="CQ\Favorites\Queries\" />
   </ItemGroup>
 

@@ -9,47 +9,23 @@ using System.Threading.Tasks;
 
 namespace Assembly.Horizon.Application.CQ.Contracts.Commands.Create;
 
-public class CreateContractCommandHandler : IRequestHandler<CreateContractCommand, Result<CreateContractResponse, Success, Error>>
+public class CreateContractCommandHandler(IUnitOfWork unitOfWork, IPdfGenerationService pdfGenerationService) : IRequestHandler<CreateContractCommand, Result<CreateContractResponse, Success, Error>>
 {
-    private readonly IUnitOfWork unitOfWork;
-    private readonly IPdfGenerationService pdfGenerationService;
-
-    public CreateContractCommandHandler(IUnitOfWork unitOfWork, IPdfGenerationService pdfGenerationService)
-    {
-        this.unitOfWork = unitOfWork;
-        this.pdfGenerationService = pdfGenerationService;
-    }
-
     public async Task<Result<CreateContractResponse, Success, Error>> Handle(CreateContractCommand request, CancellationToken cancellationToken)
     {
-        // Carrega a propriedade existente
-        var property = await unitOfWork.PropertyRepository.RetrieveAsync(request.PropertyId, cancellationToken);
-        if (property == null)
+
+        var (property, customer, realtor) = await LoadRelatedEntities(request, cancellationToken);
+        if (property == null || customer == null || realtor == null)
         {
-            return Error.NotFound; // Retorna erro se a propriedade não for encontrada
+            return Error.NotFound;
         }
 
-        // Carrega o cliente existente baseado no UserId
-        var customer = await unitOfWork.CustomerRepository.RetrieveByUserIdAsync(request.CustomerId, cancellationToken);
-        if (customer == null)
-        {
-            return Error.NotFound; // Retorna erro se o cliente não for encontrado
-        }
-
-        // Carrega o corretor existente baseado no UserId
-        var realtor = await unitOfWork.RealtorRepository.RetrieveByUserIdAsync(request.RealtorId, cancellationToken);
-        if (realtor == null)
-        {
-            return Error.NotFound; // Retorna erro se o corretor não for encontrado
-        }
-
-        // Criação do contrato sem tentar inserir entidades existentes
         var contract = new Contract
         {
             Id = Guid.NewGuid(),
-            PropertyId = property.Id, // Referencia o Id da propriedade existente
-            CustomerId = customer.Id, // Referencia o Id do cliente existente
-            RealtorId = realtor.Id, // Referencia o Id do corretor existente
+            PropertyId = property.Id,
+            CustomerId = customer.Id,
+            RealtorId = realtor.Id,
             StartDate = request.StartDate,
             EndDate = request.EndDate,
             Value = request.Value,
@@ -64,18 +40,18 @@ public class CreateContractCommandHandler : IRequestHandler<CreateContractComman
             SecurityDeposit = request.SecurityDeposit,
             InsuranceDetails = request.InsuranceDetails,
             Notes = request.Notes,
-            TemplateVersion = request.TemplateVersion,
-            DocumentPath = string.Empty // Pode ser preenchido posteriormente
+            DocumentPath = string.Empty,
         };
 
-        // Adiciona o novo contrato ao repositório
+        contract.UpdateDates(contract.StartDate, contract.EndDate);
+
+        contract.GenerateInvoices();
+
         await unitOfWork.ContractRepository.AddAsync(contract, cancellationToken);
         await unitOfWork.CommitAsync(cancellationToken);
 
-        // Geração do PDF
         string pdfPath = await pdfGenerationService.GenerateContractPdfAsync(contract, customer, realtor, property);
 
-        // Atualiza o caminho do documento no contrato
         contract.DocumentPath = pdfPath;
         await unitOfWork.ContractRepository.UpdateAsync(contract, cancellationToken);
         await unitOfWork.CommitAsync(cancellationToken);
@@ -94,10 +70,29 @@ public class CreateContractCommandHandler : IRequestHandler<CreateContractComman
             ContractType = contract.ContractType,
             Status = contract.Status,
             SignatureDate = contract.SignatureDate,
-            DocumentPath = contract.DocumentPath
+            DocumentPath = contract.DocumentPath,
+            DurationInMonths = contract.DurationInMonths
         };
 
         return response;
+    }
+
+    private async Task<(Property, Customer, Realtor)> LoadRelatedEntities(CreateContractCommand request, CancellationToken cancellationToken)
+    {
+        Property property = null;
+        Customer customer = null;
+        Realtor realtor = null;
+
+            property = await unitOfWork.PropertyRepository.RetrieveAsync(request.PropertyId, cancellationToken);
+            if (property == null) throw new Exception("Property not found");
+
+            customer = await unitOfWork.CustomerRepository.RetrieveByUserIdAsync(request.CustomerId, cancellationToken);
+            if (customer == null) throw new Exception("Customer not found");
+
+            realtor = await unitOfWork.RealtorRepository.RetrieveByUserIdAsync(request.RealtorId, cancellationToken);
+            if (realtor == null) throw new Exception("Realtor not found");
+      
+        return (property, customer, realtor);
     }
 
 }

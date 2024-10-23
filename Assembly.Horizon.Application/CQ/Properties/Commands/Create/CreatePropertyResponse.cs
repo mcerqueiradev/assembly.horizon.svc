@@ -6,19 +6,19 @@ namespace Assembly.Horizon.Application.CQ.Properties.Commands.Create;
 
 public class CreatePropertyResponse
 {
-    public Guid Id { get; init; }
-    public string Title { get; init; }
-    public string Description { get; init; }
-    public Guid AddressId { get; init; }
-    public Guid RealtorId { get; init; }
-    public Guid OwnerId { get; init; }
-    public PropertyType Type { get; init; }
-    public double Size { get; init; }
-    public int Bedrooms { get; init; }
-    public int Bathrooms { get; init; }
-    public decimal Price { get; init; }
-    public string Amenities { get; init; }
-    public PropertyStatus Status { get; init; }
-    public List<PropertyFile>? Images { get; init; }
-    public int LikedByUsersCount { get; init; }
+    public Guid Id { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public Guid AddressId { get; set; }
+    public Guid RealtorId { get; set; }
+    public Guid CategoryId { get; set; }
+    public PropertyType Type { get; set; }
+    public double Size { get; set; }
+    public int Bedrooms { get; set; }
+    public int Bathrooms { get; set; }
+    public decimal Price { get; set; }
+    public string Amenities { get; set; }
+    public PropertyStatus Status { get; set; }
+    public List<PropertyFile>? Images { get; set; }
+    public int LikedByUsersCount { get; set; }
 }

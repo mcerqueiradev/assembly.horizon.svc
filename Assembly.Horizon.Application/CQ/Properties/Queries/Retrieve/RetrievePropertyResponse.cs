@@ -15,13 +15,15 @@ public class RetrievePropertyResponse
     public string Country { get; set; }
     public string Reference { get; set; }
     public Guid RealtorId { get; set; }
-    public PropertyType Type { get; set; }
+    public string Type { get; set; }
     public double Size { get; set; }
     public int Bedrooms { get; set; }
     public int Bathrooms { get; set; }
     public decimal Price { get; set; }
     public string Amenities { get; set; }
-    public PropertyStatus Status { get; set; }
+    public string Status { get; set; }
     public List<PropertyImageResponse> Images { get; set; }
     public bool IsActive { get; set; }
+    public Guid CategoryId { get; set; }
+    public string CategoryName { get; set; }
 }

@@ -30,21 +30,22 @@ public class RetrieveAllPropertiesQueryHandler(IUnitOfWork unitOfWork, IHttpCont
                 Country = property.Address.Country,
                 Reference = property.Address.Reference,
                 RealtorId = property.RealtorId,
-                Type = property.Type,
+                CategoryId = property.CategoryId,
+                Type = property.Type.ToString(),
                 Size = property.Size,
                 Bedrooms = property.Bedrooms,
                 Bathrooms = property.Bathrooms,
                 Price = property.Price,
                 Amenities = property.Amenities,
-                Status = property.Status,
+                Status = property.Status.ToString(),
                 Images = property.Images.Select(img => new PropertyImageResponse
                 {
                     Id = img.Id,
                     FileName = img.FileName,
                     ImagePath = $"{baseUrl}/uploads/{img.FileName}"
                 }).ToList(),
-
-                IsActive = property.IsActive
+                IsActive = property.IsActive,
+                CategoryName = property.Category.Name
             }).ToList();
 
 

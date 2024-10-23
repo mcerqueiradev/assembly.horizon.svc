@@ -4,35 +4,26 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Assembly.Horizon.Infra.Data.Configurations;
 
-internal class TransactionsConfiguration : IEntityTypeConfiguration<Transaction>
+internal class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
 {
     public void Configure(EntityTypeBuilder<Transaction> builder)
     {
-        builder.ToTable("Transactions");
-
+        builder.ToTable(nameof(Transaction));
         builder.HasKey(t => t.Id);
 
-        builder.HasOne(t => t.Customer)
-            .WithMany()
-            .HasForeignKey(t => t.CustomerId)
-            .OnDelete(DeleteBehavior.Restrict);
+        builder.Property(t => t.Amount).HasColumnType("decimal(18,2)");
+        builder.Property(t => t.Description).HasMaxLength(500);
+        builder.Property(t => t.PaymentMethod).HasMaxLength(50);
+        builder.Property(t => t.TransactionHistory).HasMaxLength(1000);
 
-        builder.HasOne(t => t.Property)
-            .WithMany()
-            .HasForeignKey(t => t.PropertyId)
-            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(t => t.Contract)
+               .WithMany(c => c.Transactions)
+               .HasForeignKey(t => t.ContractId)
+               .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(t => t.Realtor)
-            .WithMany()
-            .HasForeignKey(t => t.RealtorId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.Property(t => t.Value).IsRequired();
-        builder.Property(t => t.Date).IsRequired();
-        builder.Property(t => t.Description).IsRequired();
-        builder.Property(t => t.Invoice).IsRequired();
-        builder.Property(t => t.PaymentMethod).IsRequired();
-        builder.Property(t => t.TransactionStatus).IsRequired();
-        builder.Property(t => t.TransactionHistory).IsRequired();
+        builder.HasOne(t => t.Invoice)
+               .WithOne(i => i.Transaction)
+               .HasForeignKey<Transaction>(t => t.InvoiceId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }
