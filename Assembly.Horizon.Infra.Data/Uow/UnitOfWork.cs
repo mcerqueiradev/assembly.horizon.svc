@@ -19,7 +19,9 @@ internal class UnitOfWork(ApplicationDbContext context, IUserRepository userRepo
     IAddressRepository addressRepository, 
     IRealtorRepository realtorRepository, 
     IPropertyRepository propertyRepository,
-    ICategoryRepository categoryRepository) : IUnitOfWork
+    ICategoryRepository categoryRepository,
+    ITransactionRepository transactionRepository,
+    IInvoiceRepository invoiceRepository) : IUnitOfWork
 {
     private IDbContextTransaction? _transaction;
     private bool _disposed;
@@ -37,6 +39,8 @@ internal class UnitOfWork(ApplicationDbContext context, IUserRepository userRepo
     public IFileStorageService FileStorageService => fileStorageService;
     public IPdfGenerationService  PdfGenerationService => pdfGenerationService;
     public ICategoryRepository CategoryRepository => categoryRepository;
+    public ITransactionRepository TransactionRepository => transactionRepository;
+    public IInvoiceRepository InvoiceRepository => invoiceRepository;
 
     public bool Commit()
     {

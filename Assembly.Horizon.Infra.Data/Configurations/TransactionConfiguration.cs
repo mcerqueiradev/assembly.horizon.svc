@@ -14,7 +14,6 @@ internal class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
         builder.Property(t => t.Amount).HasColumnType("decimal(18,2)");
         builder.Property(t => t.Description).HasMaxLength(500);
         builder.Property(t => t.PaymentMethod).HasMaxLength(50);
-        builder.Property(t => t.TransactionHistory).HasMaxLength(1000);
 
         builder.HasOne(t => t.Contract)
                .WithMany(c => c.Transactions)

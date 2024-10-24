@@ -23,7 +23,7 @@ public class RetrieveContractResponse
     public decimal? SecurityDeposit { get; set; }
     public string InsuranceDetails { get; set; }
     public string Notes { get; set; }
-    public string TemplateVersion { get; set; }
+    public int DurationInMonths { get; set; }
     public string DocumentPath { get; set; } 
     public string CustomerName { get; set; }
     public string CustomerEmail { get; set; }

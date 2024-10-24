@@ -30,7 +30,6 @@ public class Contract : AuditableEntity, IEntity<Guid>
     public ICollection<Invoice> Invoices { get; set; }
     public ICollection<Transaction> Transactions { get; set; }
 
-    // Nova propriedade para armazenar a duração em meses
     public int DurationInMonths { get; set; }
 
     public Contract()
@@ -141,9 +140,6 @@ public class Contract : AuditableEntity, IEntity<Guid>
             Invoices.Add(invoice);
         }
     }
-
-
-
 }
 
 public enum ContractType

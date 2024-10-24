@@ -19,6 +19,9 @@ public interface IUnitOfWork
     public IPdfGenerationService PdfGenerationService { get; }
     public IFavoritesRepository FavoritesRepository { get; }
     public ICategoryRepository CategoryRepository { get; }
+    public ITransactionRepository TransactionRepository { get; }
+    public IInvoiceRepository InvoiceRepository { get; }
+
     bool Commit();
 
     Task<bool> CommitAsync(CancellationToken cancellationToken = default);

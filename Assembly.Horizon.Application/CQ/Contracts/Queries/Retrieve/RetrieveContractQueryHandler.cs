@@ -70,6 +70,7 @@ public class RetrieveContractQueryHandler(IUnitOfWork unitOfWork, IHttpContextAc
             Notes = contract.Notes,
             DocumentPath = contract.DocumentPath != null ?
                 $"{baseUrl}/{contract.DocumentPath.Replace("\\", "/")}" : null,
+            DurationInMonths = contract.DurationInMonths,
 
             CustomerName = $"{customer?.User.Name.FirstName} {customer?.User.Name.LastName}".Trim(),
             CustomerEmail = customer?.User.Account.Email,
