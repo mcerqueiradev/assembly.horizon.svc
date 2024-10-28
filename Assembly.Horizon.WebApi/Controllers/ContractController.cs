@@ -2,10 +2,6 @@
 using Assembly.Horizon.Application.CQ.Contracts.Commands.Create;
 using Assembly.Horizon.Application.CQ.Contracts.Queries.Retrieve;
 using Assembly.Horizon.Application.CQ.Contracts.Queries.RetrieveAll;
-using Assembly.Horizon.Application.CQ.Properties.Commands.Create;
-using Assembly.Horizon.Application.CQ.Properties.Queries.Retrieve;
-using Assembly.Horizon.Application.CQ.Properties.Queries.RetrieveAll;
-using Assembly.Horizon.Application.CQ.Users.Commands.Create;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

@@ -5,6 +5,7 @@ namespace Assembly.Horizon.Application.CQ.Transactions.Commands.Create;
 public class CreateTransactionResponse
 {
     public Guid Id { get; set; }
+    public string TransactionNumber { get; set; }
     public Guid ContractId { get; set; }
     public Guid InvoiceId { get; set; }
     public decimal Amount { get; set; }

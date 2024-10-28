@@ -2,6 +2,7 @@
 using Assembly.Horizon.Domain.Core.Uow;
 using Assembly.Horizon.Infra.Data.Context;
 using Assembly.Horizon.Infra.Data.Infrastructure;
+using Assembly.Horizon.Infra.Data.Infrastructure.Models;
 using Assembly.Horizon.Infra.Data.Interceptors;
 using Assembly.Horizon.Infra.Data.Repositories;
 using Assembly.Horizon.Infra.Data.Uow;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 
 namespace Assembly.Horizon.Infra.Data;
 
@@ -37,6 +39,24 @@ public static class DependencyInjection
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
         services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+        services.AddScoped<INotificationRepository, NotificationRepository>();
+        services.AddScoped<INotificationStrategy, HybridNotificationStrategy>();
+        services.AddScoped<ICommentRepository, CommentRepository>();
+        services.AddScoped<IPropertyVisitRepository, PropertyVisitRepository>();
+        services.AddScoped<IEmailService, EmailService>();
+
+        services.AddSingleton<IConnectionMultiplexer>(sp =>
+        {
+            var connectionString = configuration.GetConnectionString("Redis");
+            return RedisConfiguration.CreateConnection(connectionString);
+        });
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration.GetConnectionString("Redis");
+            options.InstanceName = "HorizonCache:";
+        });
+
 
         services.AddSingleton<IPdfGenerationService>(sp =>
         {
@@ -47,8 +67,6 @@ public static class DependencyInjection
                 configuration // Passando IConfiguration
             );
         });
-
-
 
         return services;
     }

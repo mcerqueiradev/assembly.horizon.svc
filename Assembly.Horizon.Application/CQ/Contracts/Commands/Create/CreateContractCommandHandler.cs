@@ -3,13 +3,10 @@ using Assembly.Horizon.Domain.Core.Interfaces;
 using Assembly.Horizon.Domain.Core.Uow;
 using Assembly.Horizon.Domain.Model;
 using MediatR;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Assembly.Horizon.Application.CQ.Contracts.Commands.Create;
 
-public class CreateContractCommandHandler(IUnitOfWork unitOfWork, IPdfGenerationService pdfGenerationService) : IRequestHandler<CreateContractCommand, Result<CreateContractResponse, Success, Error>>
+public class CreateContractCommandHandler(IUnitOfWork unitOfWork, IPdfGenerationService pdfGenerationService, INotificationStrategy notificationStrategy) : IRequestHandler<CreateContractCommand, Result<CreateContractResponse, Success, Error>>
 {
     public async Task<Result<CreateContractResponse, Success, Error>> Handle(CreateContractCommand request, CancellationToken cancellationToken)
     {
@@ -54,6 +51,20 @@ public class CreateContractCommandHandler(IUnitOfWork unitOfWork, IPdfGeneration
 
         contract.DocumentPath = pdfPath;
         await unitOfWork.ContractRepository.UpdateAsync(contract, cancellationToken);
+        await unitOfWork.CommitAsync(cancellationToken);
+
+        var notification = new Notification(
+            realtor.UserId,  // Sender (Realtor)
+            customer.UserId, // Recipient (Customer)
+            $"New contract created for property {property.Title}. Contract value: ${contract.Value}",
+            NotificationType.Contract,
+            NotificationPriority.High,
+            contract.Id,
+            "Contract"
+        );
+
+        await notificationStrategy.StorePersistentNotification(notification);
+        await unitOfWork.NotificationRepository.AddAsync(notification);
         await unitOfWork.CommitAsync(cancellationToken);
 
         // Cria a resposta

@@ -15,4 +15,25 @@ public class TransactionRepository : PaginatedRepository<Transaction, Guid>, ITr
         _context = context;
         _dbSet = context.Set<Transaction>();
     }
+
+    public async Task<IEnumerable<Transaction>> GetByUserIdAsync(Guid userId)
+    {
+        return await _dbSet
+            .Where(t => t.UserId == userId)
+            .OrderByDescending(t => t.CreatedAt)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Transaction>> GetByContractIdAsync(Guid contractId)
+    {
+        return await _dbSet
+            .Where(t => t.ContractId == contractId)
+            .OrderByDescending(t => t.CreatedAt)
+            .ToListAsync();
+    }
+
+    public async Task<Transaction> RetrieveByInvoiceIdAsync(Guid invoiceId)
+    {
+        return await _dbSet.FirstOrDefaultAsync(t => t.InvoiceId == invoiceId);
+    }
 }

@@ -8,7 +8,7 @@ internal class PropertyVisitConfiguration : IEntityTypeConfiguration<PropertyVis
 {
     public void Configure(EntityTypeBuilder<PropertyVisit> builder)
     {
-        builder.ToTable("PropertyVisits");
+        builder.ToTable("PropertyVisits", "Horizon");
         builder.HasKey(r => r.Id);
 
         builder.HasOne(pv => pv.Property)
@@ -16,14 +16,17 @@ internal class PropertyVisitConfiguration : IEntityTypeConfiguration<PropertyVis
                .HasForeignKey(pv => pv.PropertyId)
                .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(pv => pv.Customer)
+        builder.HasOne(pv => pv.User)
                .WithMany()
-               .HasForeignKey(pv => pv.CustomerId)
+               .HasForeignKey(pv => pv.UserId)
                .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(pv => pv.Realtor)
+        builder.HasOne(pv => pv.RealtorUser)
                .WithMany()
-               .HasForeignKey(pv => pv.RealtorId)
+               .HasForeignKey(pv => pv.RealtorUserId)
                .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Property(pv => pv.Notes)
+               .HasMaxLength(500);
     }
 }

@@ -21,6 +21,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<PropertyFile> PropertyFiles { get; set; }
     public DbSet<PropertyVisit> PropertyVisits { get; set; }
     public DbSet<Customer> Customers { get; set; }
+    public DbSet<CommentLike> CommentsLikes { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)

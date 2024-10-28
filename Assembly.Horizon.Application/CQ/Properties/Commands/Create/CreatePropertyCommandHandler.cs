@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Assembly.Horizon.Application.CQ.Properties.Commands.Create;
 
-public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork, IFileStorageService fileStorageService ) : IRequestHandler<CreatePropertyCommand, Result<CreatePropertyResponse, Success, Error>>
+public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork, IFileStorageService fileStorageService, INotificationStrategy notificationStrategy ) : IRequestHandler<CreatePropertyCommand, Result<CreatePropertyResponse, Success, Error>>
 {
     public async Task<Result<CreatePropertyResponse, Success, Error>> Handle(CreatePropertyCommand request, CancellationToken cancellationToken)
     {
@@ -61,6 +61,23 @@ public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork, IFileStorageSe
                 var fileName = await fileStorageService.SaveFileAsync(image, cancellationToken);
                 property.Images.Add(new PropertyFile(property.Id, fileName));
             }
+        }
+
+        var allUsers = await unitOfWork.UserRepository.RetrieveAllAsync();
+
+        foreach (var user in allUsers)
+        {
+            var notification = new Notification(
+                realtor.UserId,
+                user.Id,
+                $"New property listed: {property.Title} by {realtor.User.Name.FirstName} {realtor.User.Name.LastName}",
+                NotificationType.NewListing,
+                NotificationPriority.Low,
+                property.Id,
+                "Property"
+            );
+
+            await notificationStrategy.StoreTransientNotification(notification);
         }
 
         await unitOfWork.PropertyRepository.AddAsync(property, cancellationToken);

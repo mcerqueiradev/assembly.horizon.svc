@@ -7,18 +7,22 @@ internal class NotificationsConfiguration : IEntityTypeConfiguration<Notificatio
 {
     public void Configure(EntityTypeBuilder<Notification> builder)
     {
-        builder.ToTable("Notifications");
-
         builder.HasKey(n => n.Id);
 
-        builder.HasOne(n => n.SenderUser)
+        builder.HasOne(n => n.Sender)
             .WithMany()
             .HasForeignKey(n => n.SenderId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(n => n.RecipientUser)
+        builder.HasOne(n => n.Recipient)
             .WithMany()
             .HasForeignKey(n => n.RecipientId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Property(n => n.Message)
+            .IsRequired();
+
+        builder.Property(n => n.ReferenceType)
+            .HasMaxLength(50);
     }
 }

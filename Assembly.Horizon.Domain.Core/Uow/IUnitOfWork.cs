@@ -21,7 +21,10 @@ public interface IUnitOfWork
     public ICategoryRepository CategoryRepository { get; }
     public ITransactionRepository TransactionRepository { get; }
     public IInvoiceRepository InvoiceRepository { get; }
-
+    public INotificationStrategy NotificationStrategy { get; }
+    public INotificationRepository NotificationRepository { get; }
+    public ICommentRepository CommentRepository { get; }
+    public IPropertyVisitRepository PropertyVisitRepository{ get; }
     bool Commit();
 
     Task<bool> CommitAsync(CancellationToken cancellationToken = default);

@@ -1,5 +1,6 @@
 ﻿using Assembly.Horizon.Application.Common.Responses;
 using Assembly.Horizon.Application.CQ.Transactions.Commands.Create;
+using Assembly.Horizon.Application.CQ.Transactions.Queries.RetrieveByUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,5 +23,15 @@ public class TransactionController(ISender sender) : Controller
         }
 
         return BadRequest(result.Error);
+    }
+
+    [HttpGet("user/{userId}")]
+    [ProducesResponseType(typeof(RetrieveTransactionByUserResponse), 200)]
+    [ProducesResponseType(typeof(Error), 404)]
+    public async Task<IActionResult> GetTransactionsByUser(Guid userId, CancellationToken cancellationToken)
+    {
+        var query = new RetrieveTransactionByUserQuery(userId);
+        var result = await sender.Send(query, cancellationToken);
+        return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
     }
 }

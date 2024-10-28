@@ -21,7 +21,11 @@ internal class UnitOfWork(ApplicationDbContext context, IUserRepository userRepo
     IPropertyRepository propertyRepository,
     ICategoryRepository categoryRepository,
     ITransactionRepository transactionRepository,
-    IInvoiceRepository invoiceRepository) : IUnitOfWork
+    IInvoiceRepository invoiceRepository,
+    INotificationRepository notificationRepository,
+    INotificationStrategy notificationStrategy,
+    ICommentRepository commentRepository,
+    IPropertyVisitRepository propertyVisitRepository) : IUnitOfWork
 {
     private IDbContextTransaction? _transaction;
     private bool _disposed;
@@ -41,6 +45,10 @@ internal class UnitOfWork(ApplicationDbContext context, IUserRepository userRepo
     public ICategoryRepository CategoryRepository => categoryRepository;
     public ITransactionRepository TransactionRepository => transactionRepository;
     public IInvoiceRepository InvoiceRepository => invoiceRepository;
+    public INotificationStrategy NotificationStrategy => notificationStrategy;
+    public INotificationRepository NotificationRepository => notificationRepository;
+    public ICommentRepository CommentRepository => commentRepository;
+    public IPropertyVisitRepository PropertyVisitRepository => propertyVisitRepository;
 
     public bool Commit()
     {

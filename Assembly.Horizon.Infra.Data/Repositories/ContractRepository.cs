@@ -15,4 +15,25 @@ public class ContractRepository : PaginatedRepository<Contract, Guid>, IContract
         _context = context;
         _dbSet = context.Set<Contract>();
     }
+
+    public async Task<Contract> RetrieveAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _dbSet
+            .Include(c => c.Property)
+                .ThenInclude(p => p.Address)
+            .Include(c => c.Property)
+                .ThenInclude(p => p.Images)
+            .Include(c => c.Customer)
+                .ThenInclude(c => c.User)
+                    .ThenInclude(u => u.Name)
+            .Include(c => c.Customer)
+                .ThenInclude(c => c.User)
+                    .ThenInclude(u => u.Account)
+            .Include(c => c.Realtor)
+                .ThenInclude(r => r.User)
+                    .ThenInclude(u => u.Name)
+            .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+    }
+
+
 }
