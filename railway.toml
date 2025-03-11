@@ -5,4 +5,4 @@ dockerfilePath = "./Assembly.Horizon.WebApi/Dockerfile"
 [deploy]
 startCommand = "dotnet ./Assembly.Horizon.WebApi.dll"
 restartPolicyType = "always"
-healthcheckPath = "/health"
+healthcheckPath = "/swagger"
