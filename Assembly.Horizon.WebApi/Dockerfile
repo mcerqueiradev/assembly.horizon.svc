@@ -26,4 +26,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 RUN mkdir -p /app/Uploads
+ENV ASPNETCORE_URLS=http://+:7220
 ENTRYPOINT ["dotnet", "Assembly.Horizon.WebApi.dll"]
