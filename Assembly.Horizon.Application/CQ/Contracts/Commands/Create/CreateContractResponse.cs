@@ -8,9 +8,10 @@ public class CreateContractResponse
     public Guid PropertyId { get; set; }
     public Guid CustomerId { get; set; }
     public Guid RealtorId { get; set; }
+    public Guid? ProposalId { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
-    public double Value { get; set; }
+    public decimal Value { get; set; }
     public bool IsActive { get; set; }
     public ContractType ContractType { get; set; }
     public ContractStatus Status { get; set; }

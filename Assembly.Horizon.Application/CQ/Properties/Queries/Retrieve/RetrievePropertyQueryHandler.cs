@@ -1,4 +1,4 @@
-﻿using Assembly.Horizon.Application.Common.Responses;
+using Assembly.Horizon.Application.Common.Responses;
 using Assembly.Horizon.Application.CQ.Properties.Queries.RetrieveAll;
 using Assembly.Horizon.Domain.Core.Uow;
 using MediatR;
@@ -46,7 +46,9 @@ public class RetrievePropertyQueryHandler(IUnitOfWork unitOfWork, IHttpContextAc
                 ImagePath = $"{baseUrl}/uploads/{img.FileName}"
             }).ToList(),
             IsActive = property.IsActive,
-            CategoryName = property.Category.Name
+            CategoryName = property.Category.Name,
+            CreatedAt = property.CreatedAt,
+            LastActiveDate = property.LastActiveDate,
         };
 
         return response;

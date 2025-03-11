@@ -64,6 +64,8 @@ public class RetrieveAllContractsQueryHandler(IUnitOfWork unitOfWork, IHttpConte
                 Notes = contract.Notes,
                 DocumentPath = contract.DocumentPath != null ? $"{baseUrl}/{contract.DocumentPath}" : null,
                 DurationInMonths = contract.DurationInMonths,
+                ContractName = contract.ContractName,
+                CreatedAt = contract.CreatedAt,
 
                 CustomerName = $"{customer?.User.Name.FirstName} {customer?.User.Name.LastName}".Trim(),
                 CustomerEmail = customer?.User.Account.Email,

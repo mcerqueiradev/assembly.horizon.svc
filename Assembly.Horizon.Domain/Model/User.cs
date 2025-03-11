@@ -1,7 +1,7 @@
-﻿using Assembly.Horizon.Domain.Common;
+using System.ComponentModel.DataAnnotations.Schema;
+using Assembly.Horizon.Domain.Common;
 using Assembly.Horizon.Domain.Interface;
 using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Assembly.Horizon.Domain.Model;
 
@@ -19,6 +19,8 @@ public class User : AuditableEntity, IEntity<Guid>
     public List<Property> FavoriteProperties { get; set; } = new();
     public bool IsActive { get; set; }
     public DateTime? LastActiveDate { get; set; }
+    public virtual UserProfile Profile { get; set; }
+    public virtual ICollection<UserPost> Posts { get; set; } = new List<UserPost>();
 
     public User()
     {

@@ -1,5 +1,6 @@
 ﻿using Assembly.Horizon.Application.Common.Responses;
 using Assembly.Horizon.Application.CQ.Contracts.Commands.Create;
+using Assembly.Horizon.Application.CQ.Contracts.Commands.CreateFromProposal;
 using Assembly.Horizon.Application.CQ.Contracts.Queries.Retrieve;
 using Assembly.Horizon.Application.CQ.Contracts.Queries.RetrieveAll;
 using MediatR;
@@ -25,6 +26,24 @@ public class ContractController(ISender sender) : Controller
 
         return BadRequest(result.Error);
     }
+
+    [HttpPost("CreateFromProposal")]
+    [ProducesResponseType(typeof(CreateContractResponse), 200)]
+    [ProducesResponseType(typeof(Error), 400)]
+    public async Task<IActionResult> CreateContractFromProposal([FromForm] CreateContractFromProposalCommand command, CancellationToken cancellationToken)
+    {
+        var result = await sender.Send(command, cancellationToken);
+
+        if (result.IsSuccess)
+        {
+            var contractResponse = result.Value;
+            contractResponse.DocumentPath = $"{Request.Scheme}://{Request.Host}/api/contract/Outputs/Contracts/{Path.GetFileName(contractResponse.DocumentPath)}";
+            return Ok(contractResponse);
+        }
+
+        return BadRequest(result.Error);
+    }
+
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Retrieve(Guid id, CancellationToken cancellationToken)

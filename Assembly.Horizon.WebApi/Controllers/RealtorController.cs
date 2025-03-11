@@ -2,6 +2,7 @@
 using Assembly.Horizon.Application.CQ.Realtors.Command.Create;
 using Assembly.Horizon.Application.CQ.Realtors.Queries.Retrieve;
 using Assembly.Horizon.Application.CQ.Realtors.Queries.RetrieveAll;
+using Assembly.Horizon.Application.CQ.Realtors.Queries.RetrieveByUserId;
 using Assembly.Horizon.Application.CQ.Users.Commands.Create;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -54,11 +55,17 @@ public class RealtorController(ISender sender) : Controller
         return NotFound(result.Error);
     }
 
-    //[HttpPut("{id}")]
-    //public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommand command)
-    //{
-    //    var updatedMember = await sender.Send(command);
+    [HttpGet("ByUserId/{userId}")]
+    public async Task<IActionResult> RetrieveByUserId(Guid userId, CancellationToken cancellationToken)
+    {
+        var query = new RetrieveRealtorByUserIdQuery { UserId = userId };
+        var result = await sender.Send(query, cancellationToken);
 
-    //    return updatedMember != null ? Ok(updatedMember.IsSuccess) : NotFound("User not found.");
-    //}
+        if (result.IsSuccess)
+        {
+            return Ok(result.Value);
+        }
+
+        return NotFound(result.Error);
+    }
 }

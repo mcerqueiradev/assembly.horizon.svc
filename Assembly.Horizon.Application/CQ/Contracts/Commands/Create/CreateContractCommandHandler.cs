@@ -42,7 +42,7 @@ public class CreateContractCommandHandler(IUnitOfWork unitOfWork, IPdfGeneration
 
         contract.UpdateDates(contract.StartDate, contract.EndDate);
 
-        contract.GenerateInvoices();
+        contract.GenerateTransactions();
 
         await unitOfWork.ContractRepository.AddAsync(contract, cancellationToken);
         await unitOfWork.CommitAsync(cancellationToken);

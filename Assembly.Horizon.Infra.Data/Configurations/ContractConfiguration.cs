@@ -36,6 +36,12 @@ internal class ContractConfiguration : IEntityTypeConfiguration<Contract>
                .HasForeignKey(c => c.RealtorId)
                .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasOne(c => c.Proposal)
+               .WithMany()
+               .HasForeignKey(c => c.ProposalId)
+               .IsRequired(false)
+               .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasMany(c => c.Invoices)
                .WithOne(i => i.Contract)
                .HasForeignKey(i => i.ContractId)

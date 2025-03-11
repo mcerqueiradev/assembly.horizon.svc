@@ -1,4 +1,4 @@
-﻿using Assembly.Horizon.Application.CQ.Properties.Queries.RetrieveAll;
+using Assembly.Horizon.Application.CQ.Properties.Queries.RetrieveAll;
 using Assembly.Horizon.Domain.Model;
 
 namespace Assembly.Horizon.Application.CQ.Properties.Queries.RetrieveLatest;
@@ -24,4 +24,6 @@ public class RetrieveLatestPropertyResponse
     public PropertyStatus Status { get; set; }
     public List<PropertyImageResponse> Images { get; set; }
     public bool IsActive { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? LastActiveDate { get; set;}
 }

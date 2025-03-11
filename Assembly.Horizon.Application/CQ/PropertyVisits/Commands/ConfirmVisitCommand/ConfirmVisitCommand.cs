@@ -26,8 +26,8 @@ public class ConfirmVisitCommandHandler(IUnitOfWork unitOfWork, INotificationStr
 
         // Notify the user who requested the visit
         var notification = new Notification(
-            visit.UserId, // Send to the user who requested
             visit.RealtorUserId,
+            visit.UserId, // Send to the user who requested
             $"Your visit request for {visit.Property.Title} on {visit.VisitDate:d} at {visit.TimeSlot} has been confirmed by the realtor",
             NotificationType.Visit,
             NotificationPriority.High,

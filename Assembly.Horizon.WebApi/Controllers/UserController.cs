@@ -1,4 +1,4 @@
-﻿using Assembly.Horizon.Application.Common.Responses;
+using Assembly.Horizon.Application.Common.Responses;
 using Assembly.Horizon.Application.CQ.Users.Commands.Create;
 using Assembly.Horizon.Application.CQ.Users.Commands.Update;
 using Assembly.Horizon.Application.CQ.Users.Queries.Retrieve;

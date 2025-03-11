@@ -1,4 +1,4 @@
-﻿using Assembly.Horizon.Domain.Core.Interfaces;
+using Assembly.Horizon.Domain.Core.Interfaces;
 using Assembly.Horizon.Domain.Core.Uow;
 using Assembly.Horizon.Infra.Data.Context;
 using Assembly.Horizon.Infra.Data.Infrastructure;
@@ -44,6 +44,11 @@ public static class DependencyInjection
         services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<IPropertyVisitRepository, PropertyVisitRepository>();
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IProposalNegotiationRepository, ProposalNegotiationRepository>();
+        services.AddScoped<IProposalDocumentRepository, ProposalDocumentRepository>();
+        services.AddScoped<IPropertyProposalRepository, PropertyProposalRepository>();
+        services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+        services.AddScoped<IUserPostRepository, UserPostRepository>();
 
         services.AddSingleton<IConnectionMultiplexer>(sp =>
         {

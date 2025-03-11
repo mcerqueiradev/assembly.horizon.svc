@@ -1,4 +1,4 @@
-﻿using Assembly.Horizon.Application.CQ.Users.Queries.Auth;
+using Assembly.Horizon.Application.CQ.Users.Queries.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

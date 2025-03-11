@@ -4,10 +4,12 @@ public record TransactionResponse(
 Guid Id,
 Guid ContractId,
 Guid InvoiceId,
+Guid UserId,
 DateTime Date,
 string Description,
 string Status,
 string PaymentMethod,
 decimal Amount,
-DateTime CreatedAt
+DateTime CreatedAt,
+string TransactionNumber
 );

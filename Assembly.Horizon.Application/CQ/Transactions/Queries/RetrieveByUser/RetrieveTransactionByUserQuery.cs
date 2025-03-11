@@ -25,12 +25,14 @@ public class RetrieveTransactionByUserQueryHandler(IUnitOfWork unitOfWork)
             t.Id,
             t.ContractId,
             t.InvoiceId,
+            t.UserId,
             t.Date,
             t.Description,
             t.Status.ToString(),
             t.PaymentMethod,
             t.Amount,
-            t.CreatedAt
+            t.CreatedAt,
+            t.TransactionNumber
         )).ToList();
 
         return new RetrieveTransactionByUserResponse(transactionResponses);

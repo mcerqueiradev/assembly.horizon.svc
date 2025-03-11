@@ -1,7 +1,6 @@
-﻿using Assembly.Horizon.Domain.Model;
+using Assembly.Horizon.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 
 namespace Assembly.Horizon.Infra.Data.Configurations;
 
@@ -37,6 +36,14 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
             {
                 j.HasKey("UserId", "PropertyId");
             });
+
+        builder.HasOne(x => x.Profile)
+    .WithOne(x => x.User)
+    .HasForeignKey<UserProfile>(x => x.UserId);
+
+        builder.HasMany(x => x.Posts)
+            .WithOne(x => x.User)
+            .HasForeignKey(x => x.UserId);
     }
 }
 

@@ -39,4 +39,26 @@ public class PropertyRepository : PaginatedRepository<Property, Guid>, IProperty
 
         return properties;
     }
+
+    public async Task<List<Property>> RetrieveByRealtorAsync(Guid realtorId, CancellationToken cancellationToken = default)
+    {
+        return await DbSet
+            .Include(p => p.Address)
+            .Include(p => p.Images)
+            .Include(p => p.Category)
+            .Where(p => p.RealtorId == realtorId)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<Property>> RetrieveByIdsAsync(List<Guid> propertyIds, CancellationToken cancellationToken)
+    {
+        return await DbSet
+            .Include(p => p.Address)
+            .Include(p => p.Images)
+            .Include(p => p.Category)
+            .Where(p => propertyIds.Contains(p.Id))
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
 }

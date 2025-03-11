@@ -1,9 +1,9 @@
-﻿using Assembly.Horizon.Domain.Core.Interfaces;
+using System.Data.Common;
+using Assembly.Horizon.Domain.Core.Interfaces;
 using Assembly.Horizon.Domain.Core.Uow;
 using Assembly.Horizon.Infra.Data.Context;
 using Assembly.Horizon.Security.Interface;
 using Microsoft.EntityFrameworkCore.Storage;
-using System.Data.Common;
 
 namespace Assembly.Horizon.Infra.Data.Uow;
 
@@ -25,7 +25,13 @@ internal class UnitOfWork(ApplicationDbContext context, IUserRepository userRepo
     INotificationRepository notificationRepository,
     INotificationStrategy notificationStrategy,
     ICommentRepository commentRepository,
-    IPropertyVisitRepository propertyVisitRepository) : IUnitOfWork
+    IPropertyVisitRepository propertyVisitRepository,
+    IProposalNegotiationRepository proposalNegotiationRepository,
+    IProposalDocumentRepository proposalDocumentRepository,
+    IPropertyProposalRepository propertyProposalRepository,
+    IUserPostRepository userPostRepository,
+    IUserProfileRepository userProfileRepository
+    ) : IUnitOfWork
 {
     private IDbContextTransaction? _transaction;
     private bool _disposed;
@@ -49,6 +55,11 @@ internal class UnitOfWork(ApplicationDbContext context, IUserRepository userRepo
     public INotificationRepository NotificationRepository => notificationRepository;
     public ICommentRepository CommentRepository => commentRepository;
     public IPropertyVisitRepository PropertyVisitRepository => propertyVisitRepository;
+    public IPropertyProposalRepository PropertyProposalRepository => propertyProposalRepository;
+    public IProposalDocumentRepository ProposalDocumentRepository => proposalDocumentRepository;
+    public IProposalNegotiationRepository ProposalNegotiationRepository => proposalNegotiationRepository;
+    public IUserProfileRepository UserProfileRepository => userProfileRepository;
+    public IUserPostRepository UserPostRepository => userPostRepository;
 
     public bool Commit()
     {

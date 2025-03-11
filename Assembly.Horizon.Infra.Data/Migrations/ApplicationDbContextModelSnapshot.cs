@@ -169,6 +169,10 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.Property<decimal>("AdditionalFees")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("ContractName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ContractType")
                         .HasColumnType("int");
 
@@ -215,6 +219,9 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.Property<Guid>("PropertyId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ProposalId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("RealtorId")
                         .HasColumnType("uniqueidentifier");
 
@@ -248,6 +255,8 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("PropertyId");
+
+                    b.HasIndex("ProposalId");
 
                     b.HasIndex("RealtorId");
 
@@ -521,6 +530,62 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.ToTable("PropertyFiles", "Horizon");
                 });
 
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.PropertyProposal", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("IntendedMoveDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PropertyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProposalNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("ProposedValue")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PropertyId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PropertyProposals", "Horizon");
+                });
+
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.PropertyVisit", b =>
                 {
                     b.Property<Guid>("Id")
@@ -579,6 +644,117 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("PropertyVisits", "Horizon");
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.ProposalDocument", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("DocumentName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("DocumentPath")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid?>("NegotiationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProposalId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NegotiationId");
+
+                    b.HasIndex("ProposalId");
+
+                    b.ToTable("ProposalDocuments", "Horizon");
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.ProposalNegotiation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("CounterOffer")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid>("ProposalId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProposalId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("ProposalNegotiations", "Horizon");
                 });
 
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.Realtor", b =>
@@ -671,6 +847,179 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users", "Horizon");
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.UserPost", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LikesCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MediaType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MediaUrl")
+                        .HasMaxLength(500)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<int>("SharesCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserPosts", "Horizon");
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.UserPostLike", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("PostId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserPostLikes", "Horizon");
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.UserPostShare", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("PostId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserPostsShare", "Horizon");
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.UserProfile", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Bio")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Location")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Occupation")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ProfileCoverUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Website")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserProfiles", "Horizon");
                 });
 
             modelBuilder.Entity("Comment", b =>
@@ -849,6 +1198,11 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Assembly.Horizon.Domain.Model.PropertyProposal", "Proposal")
+                        .WithMany()
+                        .HasForeignKey("ProposalId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Assembly.Horizon.Domain.Model.Realtor", "Realtor")
                         .WithMany()
                         .HasForeignKey("RealtorId")
@@ -858,6 +1212,8 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Property");
+
+                    b.Navigation("Proposal");
 
                     b.Navigation("Realtor");
                 });
@@ -975,6 +1331,25 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.Navigation("Property");
                 });
 
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.PropertyProposal", b =>
+                {
+                    b.HasOne("Assembly.Horizon.Domain.Model.Property", "Property")
+                        .WithMany()
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Assembly.Horizon.Domain.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Property");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.PropertyVisit", b =>
                 {
                     b.HasOne("Assembly.Horizon.Domain.Model.Property", "Property")
@@ -1000,6 +1375,43 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.Navigation("RealtorUser");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.ProposalDocument", b =>
+                {
+                    b.HasOne("Assembly.Horizon.Domain.Model.ProposalNegotiation", "Negotiation")
+                        .WithMany("Documents")
+                        .HasForeignKey("NegotiationId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Assembly.Horizon.Domain.Model.PropertyProposal", "Proposal")
+                        .WithMany("Documents")
+                        .HasForeignKey("ProposalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Negotiation");
+
+                    b.Navigation("Proposal");
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.ProposalNegotiation", b =>
+                {
+                    b.HasOne("Assembly.Horizon.Domain.Model.PropertyProposal", "Proposal")
+                        .WithMany("Negotiations")
+                        .HasForeignKey("ProposalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Assembly.Horizon.Domain.Model.User", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Proposal");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.Realtor", b =>
@@ -1040,6 +1452,66 @@ namespace Assembly.Horizon.Infra.Data.Migrations
 
                     b.Navigation("Name")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.UserPost", b =>
+                {
+                    b.HasOne("Assembly.Horizon.Domain.Model.User", "User")
+                        .WithMany("Posts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.UserPostLike", b =>
+                {
+                    b.HasOne("Assembly.Horizon.Domain.Model.UserPost", "Post")
+                        .WithMany("Likes")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Assembly.Horizon.Domain.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.UserPostShare", b =>
+                {
+                    b.HasOne("Assembly.Horizon.Domain.Model.UserPost", "Post")
+                        .WithMany("Shares")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Assembly.Horizon.Domain.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.UserProfile", b =>
+                {
+                    b.HasOne("Assembly.Horizon.Domain.Model.User", "User")
+                        .WithOne("Profile")
+                        .HasForeignKey("Assembly.Horizon.Domain.Model.UserProfile", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Comment", b =>
@@ -1120,6 +1592,18 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                     b.Navigation("Images");
                 });
 
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.PropertyProposal", b =>
+                {
+                    b.Navigation("Documents");
+
+                    b.Navigation("Negotiations");
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.ProposalNegotiation", b =>
+                {
+                    b.Navigation("Documents");
+                });
+
             modelBuilder.Entity("Assembly.Horizon.Domain.Model.Realtor", b =>
                 {
                     b.Navigation("Properties");
@@ -1129,6 +1613,18 @@ namespace Assembly.Horizon.Infra.Data.Migrations
                 {
                     b.Navigation("Account")
                         .IsRequired();
+
+                    b.Navigation("Posts");
+
+                    b.Navigation("Profile")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Assembly.Horizon.Domain.Model.UserPost", b =>
+                {
+                    b.Navigation("Likes");
+
+                    b.Navigation("Shares");
                 });
 
             modelBuilder.Entity("Comment", b =>

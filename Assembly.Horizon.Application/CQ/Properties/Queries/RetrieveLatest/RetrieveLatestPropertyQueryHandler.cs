@@ -1,4 +1,4 @@
-﻿using Assembly.Horizon.Application.Common.Responses;
+using Assembly.Horizon.Application.Common.Responses;
 using Assembly.Horizon.Application.CQ.Properties.Queries.RetrieveAll;
 using Assembly.Horizon.Domain.Core.Uow;
 using MediatR;
@@ -51,8 +51,9 @@ public class RetrieveLatestPropertyQueryHandler(IUnitOfWork unitOfWork, IHttpCon
                 FileName = img.FileName,
                 ImagePath = $"{baseUrl}/uploads/{img.FileName}"
             }).ToList(),
-
-            IsActive = lastProperty.IsActive
+            IsActive = lastProperty.IsActive,
+            CreatedAt = lastProperty.CreatedAt,
+            LastActiveDate = lastProperty.LastActiveDate,
         };
 
         return response;

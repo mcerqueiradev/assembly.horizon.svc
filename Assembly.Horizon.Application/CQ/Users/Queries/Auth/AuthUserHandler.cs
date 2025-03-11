@@ -1,4 +1,4 @@
-﻿using Assembly.Horizon.Application.Common.Responses;
+using Assembly.Horizon.Application.Common.Responses;
 using Assembly.Horizon.Domain.Core.Uow;
 using Assembly.Horizon.Security.Interface;
 using MediatR;
@@ -34,6 +34,10 @@ public class AuthUserHandler : IRequestHandler<AuthUserQuery, Result<AuthUserRes
         {
             return Error.InvalidCredentials;
         }
+
+        user.LastActiveDate = DateTime.UtcNow;
+        await _unitOfWork.UserRepository.UpdateAsync(user, cancellationToken);
+        await _unitOfWork.CommitAsync(cancellationToken);
 
         var token = _tokenService.GenerateToken(user);
         var response = new AuthUserResponse { 

@@ -1,4 +1,4 @@
-﻿using Assembly.Horizon.Domain.Common;
+using Assembly.Horizon.Domain.Common;
 using Assembly.Horizon.Domain.Interface;
 
 namespace Assembly.Horizon.Domain.Model;
@@ -68,6 +68,49 @@ public class Property : AuditableEntity, IEntity<Guid>
         RealtorId = realtor.Id;
         Category = category;
         CategoryId = category.Id;
+    }
+
+    public void ToggleActive()
+    {
+        IsActive = !IsActive;
+        LastActiveDate = IsActive ? DateTime.UtcNow : null;
+    }
+
+    public void UpdatePrice(decimal newPrice)
+    {
+        if (newPrice <= 0)
+            throw new Exception("Price must be greater than zero");
+        Price = newPrice;
+    }
+
+    public void UpdateStatus(PropertyStatus newStatus)
+    {
+        Status = newStatus;
+        if (newStatus is PropertyStatus.Sold or PropertyStatus.Rented)
+        {
+            IsActive = false;
+            LastActiveDate = DateTime.UtcNow;
+        }
+    }
+
+    public void AddImage(PropertyFile image)
+    {
+        Images.Add(image);
+    }
+
+    public void RemoveImage(string fileName)
+    {
+        var image = Images.FirstOrDefault(x => x.FileName == fileName);
+        if (image != null)
+            Images.Remove(image);
+    }
+
+    public void ToggleLikeByUser(User user)
+    {
+        if (LikedByUsers.Contains(user))
+            LikedByUsers.Remove(user);
+        else
+            LikedByUsers.Add(user);
     }
 }
 

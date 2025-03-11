@@ -1,4 +1,4 @@
-﻿using Assembly.Horizon.Domain.Model;
+using Assembly.Horizon.Domain.Model;
 using Assembly.Horizon.Infra.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +22,14 @@ public class ApplicationDbContext : DbContext
     public DbSet<PropertyVisit> PropertyVisits { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<CommentLike> CommentsLikes { get; set; }
+    public DbSet<PropertyProposal> PropertyProposals { get; set; }
+    public DbSet<ProposalNegotiation> ProposalNegotiations { get; set; }
+    public DbSet<ProposalDocument> ProposalDocuments { get; set; }
+    public DbSet<UserProfile> UserProfiles { get; set; }
+    public DbSet<UserPost> UserPosts { get; set; }
+    public DbSet<UserPostLike> UserPostLikes { get; set; }
+    public DbSet<UserPostShare> UserPostsShare { get; set; }
+
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -53,6 +61,13 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new ContractConfiguration());
         modelBuilder.ApplyConfiguration(new CustomerConfiguration());
         modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
+        modelBuilder.ApplyConfiguration(new PropertyProposalConfiguration());
+        modelBuilder.ApplyConfiguration(new ProposalNegotiationConfiguration());
+        modelBuilder.ApplyConfiguration(new ProposalDocumentConfiguration());
+        modelBuilder.ApplyConfiguration(new UserProfileConfiguration());
+        modelBuilder.ApplyConfiguration(new UserPostConfiguration());
+        modelBuilder.ApplyConfiguration(new UserPostLikeConfiguration());
+        modelBuilder.ApplyConfiguration(new UserPostShareConfiguration());
 
         modelBuilder.HasDefaultSchema("Horizon");
     }

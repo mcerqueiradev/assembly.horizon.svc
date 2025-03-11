@@ -1,4 +1,5 @@
 using Assembly.Horizon.Infra.IoC;
+using Assembly.Horizon.Security;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,13 +13,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddIocServices(builder.Configuration);
 
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
 
-app.UseStaticFiles(); // Isso habilita o serviÁo de arquivos est·ticos
+app.UseStaticFiles(); // Isso habilita o servi√ßo de arquivos est√°ticos
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
@@ -34,6 +36,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

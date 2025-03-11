@@ -1,5 +1,4 @@
-﻿using Assembly.Horizon.Application.CQ.Properties.Queries.RetrieveAll;
-using Assembly.Horizon.Domain.Model;
+using Assembly.Horizon.Application.CQ.Properties.Queries.RetrieveAll;
 
 namespace Assembly.Horizon.Application.CQ.Properties.Queries.Retrieve;
 
@@ -26,4 +25,6 @@ public class RetrievePropertyResponse
     public bool IsActive { get; set; }
     public Guid CategoryId { get; set; }
     public string CategoryName { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? LastActiveDate { get; set; }
 }

@@ -1,10 +1,10 @@
-﻿using Assembly.Horizon.Domain.Model;
-using Assembly.Horizon.Security.Interface;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Assembly.Horizon.Domain.Model;
+using Assembly.Horizon.Security.Interface;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Assembly.Horizon.Security.Services;
 
@@ -28,10 +28,8 @@ public class TokenService : ITokenService
         new Claim(JwtRegisteredClaimNames.FamilyName, user.Name.LastName),
     };
 
-        // Create credentials
         var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
-        // Describe the token
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),

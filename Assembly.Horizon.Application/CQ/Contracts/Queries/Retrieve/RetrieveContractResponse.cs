@@ -11,8 +11,8 @@ public class RetrieveContractResponse
     public Guid RealtorId { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
-    public double Value { get; set; }
-    public double AdditionalFees { get; set; }
+    public decimal Value { get; set; }
+    public decimal AdditionalFees { get; set; }
     public string PaymentFrequency { get; set; }
     public bool RenewalOption { get; set; }
     public bool IsActive { get; set; }
@@ -24,6 +24,8 @@ public class RetrieveContractResponse
     public string InsuranceDetails { get; set; }
     public string Notes { get; set; }
     public int DurationInMonths { get; set; }
+    public string ContractName { get; set; }
+    public DateTime CreatedAt { get; set; }
     public string DocumentPath { get; set; } 
     public string CustomerName { get; set; }
     public string CustomerEmail { get; set; }

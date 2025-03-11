@@ -1,4 +1,4 @@
-﻿using Assembly.Horizon.Application.Common.Responses;
+using Assembly.Horizon.Application.Common.Responses;
 using Assembly.Horizon.Domain.Core.Interfaces;
 using Assembly.Horizon.Domain.Core.Uow;
 using Assembly.Horizon.Domain.Model;
@@ -51,7 +51,9 @@ public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork, IFileStorageSe
             Status = request.Status,
             CategoryId = category.Id,
             LikedByUsers = new List<User>(),
-            Images = new List<PropertyFile>()
+            Images = new List<PropertyFile>(),
+            IsActive = true,
+            LastActiveDate = DateTime.UtcNow,
         };
 
         if (request.Images != null && request.Images.Any())
@@ -79,6 +81,28 @@ public class CreatePropertyCommandHandler(IUnitOfWork unitOfWork, IFileStorageSe
 
             await notificationStrategy.StoreTransientNotification(notification);
         }
+
+        var post = new UserPost
+        {
+            UserId = realtor.UserId,
+            Content = $"New property listed: {property.Title} in {address.City}\n\nFeatures:\n" +
+                      $"• {property.Bedrooms} bedrooms\n" +
+                      $"• {property.Bathrooms} bathrooms\n" +
+                      $"• {property.Size} sqft\n" +
+                      $"Price: ${property.Price:N2}\n\n" +
+                      $"Contact me for more details!",
+            Type = PostType.NewProperty,
+            IsActive = true,
+            CreatedAt = DateTime.UtcNow,
+        };
+
+        if (property.Images.Any())
+        {
+            post.MediaUrl = property.Images.First().FileName;
+            post.MediaType = MediaType.Image;
+        }
+
+        await unitOfWork.UserPostRepository.AddAsync(post, cancellationToken);
 
         await unitOfWork.PropertyRepository.AddAsync(property, cancellationToken);
 

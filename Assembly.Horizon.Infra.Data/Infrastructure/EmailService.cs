@@ -156,4 +156,97 @@ public class EmailService : IEmailService
             <p style='color: #666;'>We appreciate your understanding.</p>
         ";
     }
+
+    public async Task SendProposalSubmittedEmailAsync(ProposalSubmittedEmail model)
+    {
+        var message = new MimeMessage();
+        message.From.Add(new MailboxAddress("Assembly Horizon", _smtpSettings.FromEmail));
+        message.To.Add(new MailboxAddress(model.RealtorName, model.RealtorEmail));
+        message.Subject = $"New {model.ProposalType} Proposal - {model.PropertyTitle}";
+
+        var builder = new BodyBuilder();
+        builder.HtmlBody = GenerateProposalEmailTemplate(model);
+        message.Body = builder.ToMessageBody();
+
+        using var client = new SmtpClient();
+        await client.ConnectAsync(_smtpSettings.Server, _smtpSettings.Port, SecureSocketOptions.StartTls);
+        await client.AuthenticateAsync(_smtpSettings.Username, _smtpSettings.Password);
+        await client.SendAsync(message);
+        await client.DisconnectAsync(true);
+    }
+
+    private string GenerateProposalEmailTemplate(ProposalSubmittedEmail model)
+    {
+        return $@"
+        <h2>New Property Proposal Received</h2>
+        <p>A new {model.ProposalType.ToLower()} proposal has been submitted for {model.PropertyTitle}</p>
+        
+        <h3>Proposal Details:</h3>
+        <ul>
+            <li>Type: {model.ProposalType}</li>
+            <li>Proposed Value: {model.ProposedValue:C}</li>
+            <li>Payment Method: {model.PaymentMethod}</li>
+            <li>Intended Move Date: {model.IntendedMoveDate:d}</li>
+            <li>Property: {model.PropertyTitle}</li>
+            <li>Address: {model.PropertyAddress}</li>
+        </ul>
+
+        <h3>Client Information:</h3>
+        <ul>
+            <li>Name: {model.UserName}</li>
+            <li>Email: {model.UserEmail}</li>
+            {(string.IsNullOrEmpty(model.PhoneNumber) ? "" : $"<li>Phone Number: {model.PhoneNumber}</li>")}
+        </ul>
+
+        <p style='color: #666; font-size: 12px;'>You can review and respond to this proposal through the Assembly Horizon platform.</p>
+    ";
+    }
+
+    public async Task SendContractSubmittedEmailAsync(ContractSubmittedEmail model)
+    {
+        var message = new MimeMessage();
+        message.From.Add(new MailboxAddress("Assembly Horizon", _smtpSettings.FromEmail));
+        message.To.Add(new MailboxAddress(model.CustomerName, model.CustomerEmail));
+        message.Cc.Add(new MailboxAddress(model.RealtorName, model.RealtorEmail));
+        message.Subject = $"New Contract Created - {model.PropertyTitle}";
+
+        var builder = new BodyBuilder();
+        builder.HtmlBody = GenerateContractEmailTemplate(model);
+        message.Body = builder.ToMessageBody();
+
+        using var client = new SmtpClient();
+        await client.ConnectAsync(_smtpSettings.Server, _smtpSettings.Port, SecureSocketOptions.StartTls);
+        await client.AuthenticateAsync(_smtpSettings.Username, _smtpSettings.Password);
+        await client.SendAsync(message);
+        await client.DisconnectAsync(true);
+    }
+    private string GenerateContractEmailTemplate(ContractSubmittedEmail model)
+    {
+        return $@"
+        <h2>New Contract Created</h2>
+        <p>A new contract has been created for {model.PropertyTitle}</p>
+        
+        <h3>Contract Details:</h3>
+        <ul>
+            <li>Type: {model.ContractType}</li>
+            <li>Contract Value: {model.ContractValue:C}</li>
+            <li>Payment Frequency: {model.PaymentFrequency}</li>
+            <li>Start Date: {model.StartDate:d}</li>
+            <li>End Date: {model.EndDate:d}</li>
+            <li>Security Deposit: {model.SecurityDeposit:C}</li>
+            <li>Property Address: {model.PropertyAddress}</li>
+        </ul>
+
+        <h3>Contact Information:</h3>
+        <ul>
+            <li>Customer: {model.CustomerName} ({model.CustomerEmail})</li>
+            <li>Realtor: {model.RealtorName} ({model.RealtorEmail})</li>
+        </ul>
+
+        <p>The contract document is attached to this email for your records.</p>
+
+        <p style='color: #666; font-size: 12px;'>You can view and manage this contract through the Assembly Horizon platform.</p>
+    ";
+    }
+
 }

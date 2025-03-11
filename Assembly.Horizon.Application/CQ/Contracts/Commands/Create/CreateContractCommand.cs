@@ -11,8 +11,8 @@ public class CreateContractCommand : IRequest<Result<CreateContractResponse, Suc
     public Guid RealtorId { get; init; }
     public DateTime StartDate { get; init; }
     public DateTime EndDate { get; init; }
-    public double Value { get; init; }
-    public double AdditionalFees { get; init; }
+    public decimal Value { get; init; }
+    public decimal AdditionalFees { get; init; }
     public string PaymentFrequency { get; init; }
     public bool RenewalOption { get; init; }
     public bool IsActive { get; init; }

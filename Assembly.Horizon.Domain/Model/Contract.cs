@@ -1,7 +1,24 @@
 ﻿using Assembly.Horizon.Domain.Common;
 using Assembly.Horizon.Domain.Interface;
+using System.Globalization;
 
 namespace Assembly.Horizon.Domain.Model;
+
+public enum ContractType
+{
+    Sale,
+    Rent,
+}
+
+public enum ContractStatus
+{
+    Draft,
+    Pending,
+    Active,
+    Completed,
+    Terminated,
+    Expired
+}
 
 public class Contract : AuditableEntity, IEntity<Guid>
 {
@@ -14,8 +31,8 @@ public class Contract : AuditableEntity, IEntity<Guid>
     public Realtor Realtor { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
-    public double Value { get; set; }
-    public double AdditionalFees { get; set; }
+    public decimal Value { get; set; }
+    public decimal AdditionalFees { get; set; }
     public string PaymentFrequency { get; set; }
     public bool RenewalOption { get; set; }
     public bool IsActive { get; set; }
@@ -26,17 +43,20 @@ public class Contract : AuditableEntity, IEntity<Guid>
     public decimal? SecurityDeposit { get; set; }
     public string? InsuranceDetails { get; set; }
     public string? Notes { get; set; }
+    public Guid? ProposalId { get; set; }
+    public PropertyProposal? Proposal { get; set; }
     public string DocumentPath { get; set; }
     public ICollection<Invoice> Invoices { get; set; }
     public ICollection<Transaction> Transactions { get; set; }
-
     public int DurationInMonths { get; set; }
+    public string ContractName { get; private set; }
 
     public Contract()
     {
         Id = Guid.NewGuid();
         Invoices = new List<Invoice>();
         Transactions = new List<Transaction>();
+        ContractName = GenerateContractName();
     }
 
     public Contract(
@@ -46,8 +66,8 @@ public class Contract : AuditableEntity, IEntity<Guid>
         Guid realtorId,
         DateTime startDate,
         DateTime endDate,
-        double value,
-        double additionalFees,
+        decimal value,
+        decimal additionalFees,
         string paymentFrequency,
         bool renewalOption,
         bool isActive,
@@ -81,23 +101,27 @@ public class Contract : AuditableEntity, IEntity<Guid>
         DocumentPath = documentPath;
         Invoices = new List<Invoice>();
         Transactions = new List<Transaction>();
-
         CalculateDurationInMonths();
     }
 
-    // Método para calcular a duração em meses
+    private string GenerateContractName()
+    {
+        var year = DateTime.UtcNow.Year;
+        var randomNumber = Random.Shared.Next(1000, 9999).ToString();
+        var contractType = ContractType.ToString().Substring(0, 1);
+
+        return $"CTR-{year}-{randomNumber}-{contractType}";
+    }
+
     private void CalculateDurationInMonths()
     {
         DurationInMonths = ((EndDate.Year - StartDate.Year) * 12) + EndDate.Month - StartDate.Month;
-
-        // Ajuste para casos onde o dia final é anterior ao dia inicial
         if (EndDate.Day < StartDate.Day)
         {
             DurationInMonths--;
         }
     }
 
-    // Método para recalcular a duração se as datas forem alteradas
     public void UpdateDates(DateTime newStartDate, DateTime newEndDate)
     {
         StartDate = newStartDate;
@@ -105,55 +129,70 @@ public class Contract : AuditableEntity, IEntity<Guid>
         CalculateDurationInMonths();
     }
 
-    public void GenerateInvoices()
+    public void GenerateTransactions()
     {
         if (ContractType == ContractType.Rent)
         {
-            for (int i = 0; i < DurationInMonths; i++)
-            {
-                var dueDate = StartDate.AddMonths(i);
-                var uniquePart = Guid.NewGuid().ToString().Substring(0, 6); // A unique 6-character part
-                var invoiceNumber = $"INV#{dueDate:MM-yyyy}-{i + 1}-{uniquePart}"; // Example: INV#05-2024-1-ABC123
-                var invoice = new Invoice(
-                    Id,
-                    invoiceNumber,
-                    (decimal)Value,
-                    dueDate.AddDays(-7),
-                    dueDate,
-                    InvoiceStatus.Pending
-                );
-                Invoices.Add(invoice);
-            }
+            GenerateRentTransactions();
         }
         else if (ContractType == ContractType.Sale)
         {
-            var uniquePart = Guid.NewGuid().ToString().Substring(0, 6); // A unique 6-character part
-            var invoiceNumber = $"INV#{StartDate:MM-yyyy}-{uniquePart}"; // Example: INV#05-2024-ABC123 for a sale in May 2024
-            var invoice = new Invoice(
-                Id,
-                invoiceNumber,
-                (decimal)(Value + AdditionalFees),
-                StartDate,
-                StartDate.AddDays(30),
-                InvoiceStatus.Pending
-            );
-            Invoices.Add(invoice);
+            GenerateSaleTransaction();
         }
     }
-}
 
-public enum ContractType
-{
-    Sale,
-    Rent,
-}
+    private void GenerateRentTransactions()
+    {
+        var frequency = PaymentFrequency.ToLower();
+        var monthsInterval = frequency switch
+        {
+            "monthly" => 1,
+            "quarterly" => 3,
+            "semi-annually" => 6,
+            "annually" => 12,
+            _ => 1
+        };
 
-public enum ContractStatus
-{
-    Draft,
-    Pending,
-    Active,
-    Completed,
-    Terminated,
-    Expired
+        for (int i = 0; i < DurationInMonths; i += monthsInterval)
+        {
+            var dueDate = StartDate.AddMonths(i);
+            var description = $"Rent payment for {dueDate.ToString("MMMM yyyy", new CultureInfo("en-US"))}";
+
+            var transaction = new Transaction(
+                Id,                     // ContractId
+                Guid.Empty,             // Temporary InvoiceId
+                Customer.UserId,        // UserId
+                Value,                  // Amount
+                dueDate,               // Date
+                description,           // Description
+                "bank_transfer",       // PaymentMethod
+                Transaction.TransactionStatus.Pending  // Status
+            );
+
+            var invoice = transaction.GenerateInvoice();
+            Invoices.Add(invoice);
+            Transactions.Add(transaction);
+        }
+    }
+
+    private void GenerateSaleTransaction()
+    {
+        var description = $"Property purchase payment - {StartDate.ToString("MMMM yyyy", new CultureInfo("en-US"))}";
+
+        var transaction = new Transaction(
+            Id,
+            Guid.Empty,
+            Customer.UserId,
+            Value + AdditionalFees,
+            StartDate,
+            description,
+            "bank_transfer",
+            Transaction.TransactionStatus.Pending
+        );
+
+        var invoice = transaction.GenerateInvoice();
+        Invoices.Add(invoice);
+        Transactions.Add(transaction);
+    }
+
 }

@@ -1,6 +1,6 @@
-﻿using Assembly.Horizon.Domain.Core.Interfaces;
-using Assembly.Horizon.Security.Interface;
 using System.Data.Common;
+using Assembly.Horizon.Domain.Core.Interfaces;
+using Assembly.Horizon.Security.Interface;
 
 namespace Assembly.Horizon.Domain.Core.Uow;
 
@@ -25,6 +25,11 @@ public interface IUnitOfWork
     public INotificationRepository NotificationRepository { get; }
     public ICommentRepository CommentRepository { get; }
     public IPropertyVisitRepository PropertyVisitRepository{ get; }
+    public IProposalDocumentRepository ProposalDocumentRepository { get; }
+    public IProposalNegotiationRepository ProposalNegotiationRepository { get; }
+    public IPropertyProposalRepository PropertyProposalRepository { get; }
+    public IUserProfileRepository UserProfileRepository { get; }
+    public IUserPostRepository UserPostRepository { get; }
     bool Commit();
 
     Task<bool> CommitAsync(CancellationToken cancellationToken = default);

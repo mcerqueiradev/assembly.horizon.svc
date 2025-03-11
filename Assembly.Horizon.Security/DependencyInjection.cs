@@ -1,4 +1,4 @@
-﻿using Assembly.Horizon.Security.Interface;
+using Assembly.Horizon.Security.Interface;
 using Assembly.Horizon.Security.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,6 +1,6 @@
-﻿using Assembly.Horizon.Security.Interface;
-using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using Assembly.Horizon.Security.Interface;
+using Microsoft.AspNetCore.Http;
 
 namespace Assembly.Horizon.Security.Services;
 

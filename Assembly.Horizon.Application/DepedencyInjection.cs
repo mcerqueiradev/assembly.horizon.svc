@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,10 +22,14 @@ public static class DepedencyInjection
 
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowAngularApp",
-                builder => builder.WithOrigins("http://localhost:4200")
-                                  .AllowAnyMethod()
-                                  .AllowAnyHeader());
+            options.AddPolicy("AllowAngularApp", builder =>
+            {
+                builder
+                    .WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            });
         });
 
         services.AddControllers()

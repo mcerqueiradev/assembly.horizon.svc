@@ -1,4 +1,4 @@
-﻿using Assembly.Horizon.Domain.Interface;
+using Assembly.Horizon.Domain.Interface;
 using System;
 
 namespace Assembly.Horizon.Domain.Model;
@@ -85,7 +85,11 @@ public enum NotificationType
     SystemAlert,
     Message,
     Favorite,
-    Visit
+    Visit,
+    Proposal,
+    Negotiation,
+    ProposalAccepted,
+    PropertyReactivated
 }
 
 public enum NotificationPriority

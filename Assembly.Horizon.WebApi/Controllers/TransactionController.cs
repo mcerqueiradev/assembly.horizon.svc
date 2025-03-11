@@ -1,5 +1,6 @@
 ﻿using Assembly.Horizon.Application.Common.Responses;
 using Assembly.Horizon.Application.CQ.Transactions.Commands.Create;
+using Assembly.Horizon.Application.CQ.Transactions.Commands.Payment.Completed;
 using Assembly.Horizon.Application.CQ.Transactions.Queries.RetrieveByUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -34,4 +35,16 @@ public class TransactionController(ISender sender) : Controller
         var result = await sender.Send(query, cancellationToken);
         return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
     }
+
+    [HttpPut("{id}/process")]
+    [ProducesResponseType(typeof(CompletedTransactionResponse), 200)]
+    [ProducesResponseType(typeof(Error), 404)]
+    public async Task<IActionResult> ProcessPayment(Guid id, [FromBody] CompletedTransactionCommand command, CancellationToken cancellationToken)
+    {
+        command = command with { TransactionId = id };
+        var result = await sender.Send(command, cancellationToken);
+
+        return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
+    }
+
 }

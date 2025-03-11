@@ -15,6 +15,10 @@
     <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.5" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="4.11.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
   </ItemGroup>
 
@@ -26,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="CQ\Categories\Commands\" />
-    <Folder Include="CQ\Favorites\Queries\" />
     <Folder Include="CQ\Invoices\Commands\" />
   </ItemGroup>
 

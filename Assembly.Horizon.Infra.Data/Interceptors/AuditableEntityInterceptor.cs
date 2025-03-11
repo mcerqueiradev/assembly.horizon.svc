@@ -1,4 +1,4 @@
-﻿using Assembly.Horizon.Domain.Common;
+using Assembly.Horizon.Domain.Common;
 using Assembly.Horizon.Security.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -38,7 +38,7 @@ internal class AuditableEntityInterceptor : SaveChangesInterceptor
             {
                 entry.Entity.CreatedBy = userId;
                 entry.Entity.CreatedAt = DateTime.UtcNow;
-                entry.Entity.UpdatedBy = "system";
+                entry.Entity.UpdatedBy = userId;
                 entry.Entity.UpdateAt = DateTime.UtcNow;
             }
 
