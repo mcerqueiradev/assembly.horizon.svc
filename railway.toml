@@ -9,4 +9,4 @@ healthcheckPath = "/swagger/index.html"
 healthcheckTimeout = 300
 
 [http]
-port = 7220
+port = 8080
