@@ -1,0 +1,8 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "./Assembly.Horizon.WebApi/Dockerfile"
+
+[deploy]
+startCommand = "./Assembly.Horizon.WebApi.dll"
+restartPolicyType = "always"
+healthcheckPath = "/health"
