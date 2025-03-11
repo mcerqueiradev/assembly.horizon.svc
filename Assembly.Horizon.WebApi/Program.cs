@@ -28,13 +28,16 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/uploads"
 });
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || true) // Forçando habilitação do Swagger
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Minha API v1");
+    });
 }
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
