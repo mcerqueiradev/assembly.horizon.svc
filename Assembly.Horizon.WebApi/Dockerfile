@@ -25,4 +25,5 @@ RUN dotnet publish "./Assembly.Horizon.WebApi.csproj" -c $BUILD_CONFIGURATION -o
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+RUN mkdir -p /app/Uploads
 ENTRYPOINT ["dotnet", "Assembly.Horizon.WebApi.dll"]
