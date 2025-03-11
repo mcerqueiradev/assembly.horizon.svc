@@ -5,4 +5,8 @@ dockerfilePath = "./Assembly.Horizon.WebApi/Dockerfile"
 [deploy]
 startCommand = "dotnet ./Assembly.Horizon.WebApi.dll"
 restartPolicyType = "always"
-healthcheckPath = "/swagger"
+healthcheckPath = "/swagger/index.html"
+healthcheckTimeout = 300
+
+[http]
+force_ssl = true
